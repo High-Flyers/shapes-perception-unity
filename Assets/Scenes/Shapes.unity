@@ -213,147 +213,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: 80, z: 0}
---- !u!1 &915531338
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 915531340}
-  - component: {fileID: 915531339}
-  m_Layer: 0
-  m_Name: Simulation Scenerio
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
-  m_IsActive: 1
---- !u!114 &915531339
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 915531338}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d50076aff0af4515b4422166496fdd5e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Randomizers:
-  - id: 0
-  - id: 1
-  - id: 2
-  quitOnComplete: 1
-  constants:
-    randomSeed: 539662031
-    totalIterations: 1000
-    instanceCount: 1
-    instanceIndex: 0
-    framesPerIteration: 1
-  references:
-    version: 1
-    00000000:
-      type: {class: CameraRandomizer, ns: Perception.Randomizers, asm: Assembly-CSharp}
-      data:
-        collapsed: 0
-        <enabled>k__BackingField: 1
-    00000001:
-      type: {class: ObjectsInCameraViewRandomizer, ns: Perception.Randomizers, asm: Assembly-CSharp}
-      data:
-        collapsed: 0
-        <enabled>k__BackingField: 1
-        prefabs:
-          collapsed: 0
-          probabilities:
-          - 0.33333334
-          - 0.33333334
-          - 0.33333334
-          uniform: 1
-          m_Sampler:
-            id: 3
-          m_Categories:
-          - {fileID: 919132149155446097, guid: 6bef4ec9e9185c64bafaf5cbc94aab7a, type: 3}
-          - {fileID: 919132149155446097, guid: b085b97bbd14a8142b1efe14561fe443, type: 3}
-          - {fileID: 919132149155446097, guid: a9816dc1250636e4d83395d7c0ee17ec, type: 3}
-    00000002:
-      type: {class: MaterialRandomizer, ns: Perception.Randomizers, asm: Assembly-CSharp}
-      data:
-        collapsed: 0
-        <enabled>k__BackingField: 1
-        materials:
-          collapsed: 0
-          probabilities:
-          - 0.055555556
-          - 0.055555556
-          - 0.055555556
-          - 0.055555556
-          - 0.055555556
-          - 0.055555556
-          - 0.055555556
-          - 0.055555556
-          - 0.055555556
-          - 0.055555556
-          - 0.055555556
-          - 0.055555556
-          - 0.055555556
-          - 0.055555556
-          - 0.055555556
-          - 0.055555556
-          - 0.055555556
-          - 0.055555556
-          uniform: 1
-          m_Sampler:
-            id: 4
-          m_Categories:
-          - {fileID: 2100000, guid: d805d830c4023774cb6259aca09f431e, type: 2}
-          - {fileID: 2100000, guid: 893960384de673345a82517892b28bc7, type: 2}
-          - {fileID: 2100000, guid: 020b997e4fa23c74297e208cd649319c, type: 2}
-          - {fileID: 2100000, guid: fedc75da63b32e249bccd7450cd29351, type: 2}
-          - {fileID: 2100000, guid: 2c6f5ab601d22834883d3c7e18f8be41, type: 2}
-          - {fileID: 2100000, guid: 15654a743eccf384fb2312048db767f0, type: 2}
-          - {fileID: 2100000, guid: d86005a29439b7541ade84523818db1a, type: 2}
-          - {fileID: 2100000, guid: 059cceb0ba6e50741bfe6ec2c755d5f4, type: 2}
-          - {fileID: 2100000, guid: 49c3c02661a83fd42b33859cfbf9a17d, type: 2}
-          - {fileID: 2100000, guid: 9dccf2dcc78efe741b7931e3bb85beaf, type: 2}
-          - {fileID: 2100000, guid: 5558b5711d37782468eeee5c2880e7d8, type: 2}
-          - {fileID: 2100000, guid: 224de5a1c3ba5f948af30bd7826e4666, type: 2}
-          - {fileID: 2100000, guid: e7268e596932cb541834f57d320a4677, type: 2}
-          - {fileID: 2100000, guid: bce0cd8cdfffc2a41b798316325a24d2, type: 2}
-          - {fileID: 2100000, guid: 5674184a87d87e54ca8047426601a57b, type: 2}
-          - {fileID: 2100000, guid: 748487d582b00d847bd57517f78d8e8f, type: 2}
-          - {fileID: 2100000, guid: 36508c771463abf43b7135d9539897e7, type: 2}
-          - {fileID: 2100000, guid: 42e26e838cb21e944aa7de2aae4edefc, type: 2}
-    00000003:
-      type: {class: UniformSampler, ns: UnityEngine.Perception.Randomization.Samplers,
-        asm: Unity.Perception.Runtime}
-      data:
-        range:
-          minimum: 0
-          maximum: 1
-    00000004:
-      type: {class: UniformSampler, ns: UnityEngine.Perception.Randomization.Samplers,
-        asm: Unity.Perception.Runtime}
-      data:
-        range:
-          minimum: 0
-          maximum: 1
---- !u!4 &915531340
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 915531338}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.21095, y: 14.53984, z: 1.8271444}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1473657247
 GameObject:
   m_ObjectHideFlags: 0
@@ -445,7 +304,7 @@ Transform:
   m_GameObject: {fileID: 1473657247}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 50, y: 1, z: 50}
+  m_LocalScale: {x: 100, y: 1, z: 100}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -485,7 +344,6 @@ GameObject:
   - component: {fileID: 1687258585}
   - component: {fileID: 1687258584}
   - component: {fileID: 1687258582}
-  - component: {fileID: 1687258583}
   - component: {fileID: 1687258586}
   - component: {fileID: 1687258587}
   m_Layer: 0
@@ -502,47 +360,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1687258581}
-  m_Enabled: 1
---- !u!114 &1687258583
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1687258581}
   m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be76e5f14cfee674cb30b491fb72b09b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boost: 3.5
-  positionLerpTime: 0.2
-  mouseSensitivityCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0.5
-      inSlope: 0
-      outSlope: 5
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 2.5
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  rotationLerpTime: 0.01
-  invertY: 0
 --- !u!20 &1687258584
 Camera:
   m_ObjectHideFlags: 0
@@ -593,7 +411,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1687258581}
-  m_LocalRotation: {x: 0.7099199, y: -0, z: -0, w: 0.7042824}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 20, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -623,7 +441,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_RenderPostProcessing: 1
-  m_Antialiasing: 1
+  m_Antialiasing: 2
   m_AntialiasingQuality: 2
   m_StopNaN: 0
   m_Dithering: 0
@@ -644,7 +462,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   description: 
-  captureRgbImages: 0
+  captureRgbImages: 1
   firstCaptureFrame: 0
   captureTriggerMode: 0
   manualSensorAffectSimulationTiming: 0
@@ -667,25 +485,215 @@ MonoBehaviour:
         idLabelConfig: {fileID: 11400000, guid: 0696718bf165e1d40a719d636740ec7e,
           type: 2}
     00000001:
+      type: {class: RenderedObjectInfoLabeler, ns: UnityEngine.Perception.GroundTruth,
+        asm: Unity.Perception.Runtime}
+      data:
+        enabled: 0
+        objectInfoMetricId: 5ba92024-b3b7-41a7-9d3f-c03a6a8ddd01
+        idLabelConfig: {fileID: 11400000, guid: 0696718bf165e1d40a719d636740ec7e,
+          type: 2}
+    00000002:
       type: {class: ObjectCountLabeler, ns: UnityEngine.Perception.GroundTruth, asm: Unity.Perception.Runtime}
       data:
         enabled: 1
         objectCountMetricId: 51da3c27-369d-4929-aea6-d01614635ce2
         m_LabelConfig: {fileID: 11400000, guid: 0696718bf165e1d40a719d636740ec7e,
           type: 2}
-    00000002:
-      type: {class: RenderedObjectInfoLabeler, ns: UnityEngine.Perception.GroundTruth,
-        asm: Unity.Perception.Runtime}
-      data:
-        enabled: 1
-        objectInfoMetricId: 5ba92024-b3b7-41a7-9d3f-c03a6a8ddd01
-        idLabelConfig: {fileID: 11400000, guid: 0696718bf165e1d40a719d636740ec7e,
-          type: 2}
     00000003:
-      type: {class: SemanticSegmentationLabeler, ns: UnityEngine.Perception.GroundTruth,
+      type: {class: BoundingBox3DLabeler, ns: UnityEngine.Perception.GroundTruth,
         asm: Unity.Perception.Runtime}
       data:
         enabled: 0
-        annotationId: 12f94d8d-5425-4deb-9b21-5e53ad957d66
-        labelConfig: {fileID: 11400000, guid: 6c44c22737ab12844a6c5d363f25e0e1, type: 2}
-        m_TargetTextureOverride: {fileID: 0}
+        annotationId: 0bfbe00d-00fa-4555-88d1-471b58449f5c
+        idLabelConfig: {fileID: 11400000, guid: 0696718bf165e1d40a719d636740ec7e,
+          type: 2}
+        visualizationColor: {r: 0.9622642, g: 0.031772893, b: 0.031772893, a: 1}
+--- !u!1 &2010148519
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2010148521}
+  - component: {fileID: 2010148520}
+  m_Layer: 0
+  m_Name: Simulation Scenerio
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2010148520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2010148519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d50076aff0af4515b4422166496fdd5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Randomizers:
+  - id: 0
+  - id: 1
+  - id: 2
+  quitOnComplete: 1
+  constants:
+    randomSeed: 539662031
+    totalIterations: 100
+    instanceCount: 1
+    instanceIndex: 0
+    framesPerIteration: 1
+  references:
+    version: 1
+    00000000:
+      type: {class: MaterialRandomizer, ns: Perception.Randomizers, asm: Assembly-CSharp}
+      data:
+        collapsed: 0
+        <enabled>k__BackingField: 1
+        materials:
+          collapsed: 0
+          probabilities:
+          - 0.055555556
+          - 0.055555556
+          - 0.055555556
+          - 0.055555556
+          - 0.055555556
+          - 0.055555556
+          - 0.055555556
+          - 0.055555556
+          - 0.055555556
+          - 0.055555556
+          - 0.055555556
+          - 0.055555556
+          - 0.055555556
+          - 0.055555556
+          - 0.055555556
+          - 0.055555556
+          - 0.055555556
+          uniform: 1
+          m_Sampler:
+            id: 3
+          m_Categories:
+          - {fileID: 2100000, guid: d805d830c4023774cb6259aca09f431e, type: 2}
+          - {fileID: 2100000, guid: 893960384de673345a82517892b28bc7, type: 2}
+          - {fileID: 2100000, guid: 020b997e4fa23c74297e208cd649319c, type: 2}
+          - {fileID: 2100000, guid: fedc75da63b32e249bccd7450cd29351, type: 2}
+          - {fileID: 2100000, guid: 2c6f5ab601d22834883d3c7e18f8be41, type: 2}
+          - {fileID: 2100000, guid: 15654a743eccf384fb2312048db767f0, type: 2}
+          - {fileID: 2100000, guid: d86005a29439b7541ade84523818db1a, type: 2}
+          - {fileID: 2100000, guid: 059cceb0ba6e50741bfe6ec2c755d5f4, type: 2}
+          - {fileID: 2100000, guid: 49c3c02661a83fd42b33859cfbf9a17d, type: 2}
+          - {fileID: 2100000, guid: 9dccf2dcc78efe741b7931e3bb85beaf, type: 2}
+          - {fileID: 2100000, guid: 5558b5711d37782468eeee5c2880e7d8, type: 2}
+          - {fileID: 2100000, guid: 224de5a1c3ba5f948af30bd7826e4666, type: 2}
+          - {fileID: 2100000, guid: e7268e596932cb541834f57d320a4677, type: 2}
+          - {fileID: 2100000, guid: bce0cd8cdfffc2a41b798316325a24d2, type: 2}
+          - {fileID: 2100000, guid: 5674184a87d87e54ca8047426601a57b, type: 2}
+          - {fileID: 2100000, guid: 748487d582b00d847bd57517f78d8e8f, type: 2}
+          - {fileID: 2100000, guid: 36508c771463abf43b7135d9539897e7, type: 2}
+    00000001:
+      type: {class: ObjectsPlacementRandomizer, ns: Perception.Randomizers, asm: Assembly-CSharp}
+      data:
+        collapsed: 0
+        <enabled>k__BackingField: 1
+        prefabs:
+          collapsed: 0
+          probabilities:
+          - 0.33333334
+          - 0.33333334
+          - 0.33333334
+          uniform: 1
+          m_Sampler:
+            id: 4
+          m_Categories:
+          - {fileID: 5234421476371481281, guid: 4b2e076988ea66f47b3f91c549081ac4, type: 3}
+          - {fileID: 2627950574063552480, guid: c553f3f50ebbf8946ac26b9946aa99dc, type: 3}
+          - {fileID: 209842380097882152, guid: 98b104e922799df4bbdfb09aa72f540f, type: 3}
+        randomObjectsCount: 20
+        radius: 3
+        regionSize: {x: 100, y: 100}
+        rejectionSamples: 30
+        newPointsIteration: 50
+        maxDistance: 40
+        maxLabelingDistance: 100
+        height:
+          min: 5
+          max: 40
+        rotation:
+          min: 30
+          max: 150
+    00000002:
+      type: {class: ColorRandomizer, ns: UnityEngine.Perception.Randomization.Randomizers.SampleRandomizers,
+        asm: Unity.Perception.Runtime}
+      data:
+        collapsed: 0
+        <enabled>k__BackingField: 0
+        colorParameter:
+          collapsed: 1
+          hue:
+            id: 5
+          saturation:
+            id: 6
+          value:
+            id: 7
+          alpha:
+            id: 8
+    00000003:
+      type: {class: UniformSampler, ns: UnityEngine.Perception.Randomization.Samplers,
+        asm: Unity.Perception.Runtime}
+      data:
+        range:
+          minimum: 0
+          maximum: 1
+    00000004:
+      type: {class: UniformSampler, ns: UnityEngine.Perception.Randomization.Samplers,
+        asm: Unity.Perception.Runtime}
+      data:
+        range:
+          minimum: 0
+          maximum: 1
+    00000005:
+      type: {class: UniformSampler, ns: UnityEngine.Perception.Randomization.Samplers,
+        asm: Unity.Perception.Runtime}
+      data:
+        range:
+          minimum: 0
+          maximum: 1
+    00000006:
+      type: {class: UniformSampler, ns: UnityEngine.Perception.Randomization.Samplers,
+        asm: Unity.Perception.Runtime}
+      data:
+        range:
+          minimum: 0
+          maximum: 1
+    00000007:
+      type: {class: UniformSampler, ns: UnityEngine.Perception.Randomization.Samplers,
+        asm: Unity.Perception.Runtime}
+      data:
+        range:
+          minimum: 0
+          maximum: 1
+    00000008:
+      type: {class: ConstantSampler, ns: UnityEngine.Perception.Randomization.Samplers,
+        asm: Unity.Perception.Runtime}
+      data:
+        value: 1
+--- !u!4 &2010148521
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2010148519}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -27.533768, y: 8.227518, z: -29.900688}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
