@@ -225,7 +225,6 @@ GameObject:
   - component: {fileID: 1473657250}
   - component: {fileID: 1473657249}
   - component: {fileID: 1473657248}
-  - component: {fileID: 1473657252}
   - component: {fileID: 1473657253}
   m_Layer: 0
   m_Name: Plane
@@ -309,18 +308,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1473657252
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1473657247}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9546a8975fe4783ac74e987ecca9635, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1473657253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -461,6 +448,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4467405dbcbd3d64ab4363e9ae8bb813, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Labelers:
+  - id: 0
+  - id: 1
+  - id: 2
+  - id: 3
   description: 
   captureRgbImages: 1
   firstCaptureFrame: 0
@@ -468,11 +460,6 @@ MonoBehaviour:
   manualSensorAffectSimulationTiming: 0
   simulationDeltaTime: 0.0166
   framesBetweenCaptures: 0
-  m_Labelers:
-  - id: 0
-  - id: 1
-  - id: 2
-  - id: 3
   showVisualizations: 1
   references:
     version: 1
@@ -488,14 +475,14 @@ MonoBehaviour:
       type: {class: RenderedObjectInfoLabeler, ns: UnityEngine.Perception.GroundTruth,
         asm: Unity.Perception.Runtime}
       data:
-        enabled: 0
+        enabled: 1
         objectInfoMetricId: 5ba92024-b3b7-41a7-9d3f-c03a6a8ddd01
         idLabelConfig: {fileID: 11400000, guid: 0696718bf165e1d40a719d636740ec7e,
           type: 2}
     00000002:
       type: {class: ObjectCountLabeler, ns: UnityEngine.Perception.GroundTruth, asm: Unity.Perception.Runtime}
       data:
-        enabled: 1
+        enabled: 0
         objectCountMetricId: 51da3c27-369d-4929-aea6-d01614635ce2
         m_LabelConfig: {fileID: 11400000, guid: 0696718bf165e1d40a719d636740ec7e,
           type: 2}
@@ -541,10 +528,9 @@ MonoBehaviour:
   - id: 0
   - id: 1
   - id: 2
-  quitOnComplete: 1
   constants:
     randomSeed: 539662031
-    totalIterations: 100
+    totalIterations: 5000
     instanceCount: 1
     instanceIndex: 0
     framesPerIteration: 1
@@ -553,8 +539,8 @@ MonoBehaviour:
     00000000:
       type: {class: MaterialRandomizer, ns: Perception.Randomizers, asm: Assembly-CSharp}
       data:
+        m_Enabled: 1
         collapsed: 0
-        <enabled>k__BackingField: 1
         materials:
           collapsed: 0
           probabilities:
@@ -599,8 +585,8 @@ MonoBehaviour:
     00000001:
       type: {class: ObjectsPlacementRandomizer, ns: Perception.Randomizers, asm: Assembly-CSharp}
       data:
+        m_Enabled: 1
         collapsed: 0
-        <enabled>k__BackingField: 1
         prefabs:
           collapsed: 0
           probabilities:
@@ -614,13 +600,13 @@ MonoBehaviour:
           - {fileID: 5234421476371481281, guid: 4b2e076988ea66f47b3f91c549081ac4, type: 3}
           - {fileID: 2627950574063552480, guid: c553f3f50ebbf8946ac26b9946aa99dc, type: 3}
           - {fileID: 209842380097882152, guid: 98b104e922799df4bbdfb09aa72f540f, type: 3}
-        randomObjectsCount: 20
-        radius: 3
-        regionSize: {x: 100, y: 100}
+        randomObjectsCount: 200
+        radius: 10
+        regionSize: {x: 500, y: 500}
         rejectionSamples: 30
         newPointsIteration: 50
         maxDistance: 40
-        maxLabelingDistance: 100
+        maxLabelingDistance: 80
         height:
           min: 5
           max: 40
@@ -631,10 +617,10 @@ MonoBehaviour:
       type: {class: ColorRandomizer, ns: UnityEngine.Perception.Randomization.Randomizers.SampleRandomizers,
         asm: Unity.Perception.Runtime}
       data:
-        collapsed: 0
-        <enabled>k__BackingField: 0
+        m_Enabled: 1
+        collapsed: 1
         colorParameter:
-          collapsed: 1
+          collapsed: 0
           hue:
             id: 5
           saturation:
