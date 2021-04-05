@@ -611,14 +611,14 @@ MonoBehaviour:
           min: 5
           max: 40
         rotation:
-          min: 30
-          max: 150
+          min: 80
+          max: 100
     00000002:
       type: {class: ColorRandomizer, ns: UnityEngine.Perception.Randomization.Randomizers.SampleRandomizers,
         asm: Unity.Perception.Runtime}
       data:
         m_Enabled: 1
-        collapsed: 1
+        collapsed: 0
         colorParameter:
           collapsed: 0
           hue:
@@ -655,7 +655,7 @@ MonoBehaviour:
         asm: Unity.Perception.Runtime}
       data:
         range:
-          minimum: 0
+          minimum: 0.6
           maximum: 1
     00000007:
       type: {class: UniformSampler, ns: UnityEngine.Perception.Randomization.Samplers,
