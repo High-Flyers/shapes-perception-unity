@@ -25,22 +25,26 @@ namespace UnityTemplateProjects
             var cameraAngles = camera.transform.eulerAngles;
             var polygon = new List<Vector3>();
             var angleBottom = cameraAngles.x + camera.fieldOfView / 2;
+            var angleTop = cameraAngles.x - camera.fieldOfView / 2;
             var triangleAngle = getTriangleAngle();
             
+            
+
             if (angleBottom > 0)
             {
-                var depth = height / Mathf.Cos(Mathf.Abs(90 - angleBottom) * Mathf.Deg2Rad);
-                depth = depth / Mathf.Cos(triangleAngle);
-                
-                var centerBottom = getPoint(new Vector3(0.5f, 0, maxDistance));
-                var centerTop = getPoint(new Vector3(0.5f, 1, maxDistance));
-                var leftBottom = new Vector3(0, 0, 0);
-                var rightBottom = new Vector3(0, 0, 0);
+                Vector3 leftBottom=Vector3.zero, rightBottom=Vector3.zero, leftTop=Vector3.zero, rightTop=Vector3.zero;
 
+                var depthBottom = getEdgeLength(angleBottom, height, triangleAngle);
+
+                var depthTop = getEdgeLength(angleTop, height, triangleAngle);
+
+                var centerBottom = getPoint(new Vector3(0.5f, 0, maxDistance));
+                var centerTop = getPoint(new Vector3(0.5f, 1, maxDistance)); 
+                
                 if (centerBottom.y < 0)
                 {
-                    leftBottom = getPoint(new Vector3(0, 0, depth));
-                    rightBottom = getPoint(new Vector3(1, 0, depth));
+                    leftBottom = getPoint(new Vector3(0, 0, depthBottom));
+                    rightBottom = getPoint(new Vector3(1, 0, depthBottom));
                 }
                 else
                 {
@@ -49,13 +53,46 @@ namespace UnityTemplateProjects
                         var z = -Mathf.Sqrt(Mathf.Pow(maxDistance, 2) - Mathf.Pow(height, 2));
                         var pointOnScreen = camera.WorldToViewportPoint(new Vector3(0, 0, z));
 
-                        leftBottom = camera.ViewportToWorldPoint(new Vector3(0, pointOnScreen.y, maxDistance));
-                        rightBottom = camera.ViewportToWorldPoint(new Vector3(1, pointOnScreen.y, maxDistance));
+                        var angle = Mathf.Acos(height / maxDistance);
+                        var edgeLen = getEdgeLength(angle, height, triangleAngle);
+
+                        leftBottom = getPoint(new Vector3(0, pointOnScreen.y, edgeLen));
+                        rightBottom = getPoint(new Vector3(1, pointOnScreen.y, edgeLen));
                     }
                 }
 
-                polygon.Add(leftBottom);
-                polygon.Add(rightBottom);
+                if (centerTop.y < 0)
+                {
+                    Debug.Log("xddd");
+                    leftTop = getPoint(new Vector3(0, 1, depthTop));
+                    rightTop = getPoint(new Vector3(1, 1, depthTop));
+
+                }
+                else
+                {
+                    if( centerBottom.y < 0)
+                    {
+                        Debug.Log("xddd2");
+
+                        var z = Mathf.Sqrt(Mathf.Pow(maxDistance, 2) - Mathf.Pow(height, 2));
+                        var pointOnScreen = camera.WorldToViewportPoint(new Vector3(0, 0, z));
+
+                        var angle = Mathf.Acos(height / maxDistance);
+                        var edgeLen = getEdgeLength(angle, height, triangleAngle);
+
+                        leftTop = getPoint(new Vector3(0, pointOnScreen.y, edgeLen));
+                        rightTop = getPoint(new Vector3(1, pointOnScreen.y, edgeLen));
+                    }
+
+                }
+                if (leftBottom!= Vector3.zero)
+                    polygon.Add(leftBottom);
+                if (rightBottom!= Vector3.zero)
+                    polygon.Add(rightBottom);
+                if (rightTop!= Vector3.zero)
+                    polygon.Add(rightTop);
+                if(leftTop!= Vector3.zero)
+                    polygon.Add(leftTop);
             }
 
             if (polygon.Count() >= 2)
@@ -81,6 +118,7 @@ namespace UnityTemplateProjects
             return point;
         }
 
+
         private float getTriangleAngle()
         {
             var cameraPosition = camera.transform.position;
@@ -90,6 +128,14 @@ namespace UnityTemplateProjects
             var c = Vector3.Distance(cameraPosition, rightPoint);
 
             return Mathf.Acos(h / c);
+        }
+
+        private float getEdgeLength(float angle, float height, float triangleAngle)
+        {
+            var edgeLen = height / Mathf.Cos(Mathf.Abs(90 - angle) * Mathf.Deg2Rad);
+            edgeLen = edgeLen / Mathf.Cos(triangleAngle);
+
+            return edgeLen;
         }
     }
     
