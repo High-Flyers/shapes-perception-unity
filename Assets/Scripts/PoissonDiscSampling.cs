@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class PoissonDiscSampling
@@ -50,7 +51,10 @@ public static class PoissonDiscSampling
 
         for (int i = 0; i < points.Count; i++)
             points[i] += center;
-
+        
+        if (points.Count() == 0)
+            points.Add(new Vector2(x - sampleRegionSize.x / 2, y - sampleRegionSize.y / 2));
+        
         return points;
     }
 

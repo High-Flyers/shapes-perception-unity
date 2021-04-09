@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using Structures;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.Perception.GroundTruth;
 using UnityEngine.Perception.Randomization.Parameters;
 using UnityEngine.Perception.Randomization.Randomizers;
 using UnityEngine.Perception.Randomization.Randomizers.Utilities;
+using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 namespace Perception.Randomizers
@@ -16,67 +18,65 @@ namespace Perception.Randomizers
     public class ObjectsPlacementRandomizer : Randomizer
     {
         public GameObjectParameter prefabs;
-        public int randomObjectsCount = 20;
+        public float randomObjectsCount = 0.3f;
         public float radius = 10;
-        public Vector2 regionSize = Vector2.one * 100;
         public int rejectionSamples = 30;
-        public int newPointsIteration = 50;
-
-        [Range(0, 100)] public float maxDistance = 40;
+        
         public float maxLabelingDistance = 100;
-        public MinMaxParameter height = new MinMaxParameter(5, 40);
-        public MinMaxParameter rotation = new MinMaxParameter(30, 150);
+        public MinMaxParameter heightLimit = new MinMaxParameter(5, 40);
+        public float rotationLimit = 60;
 
         private GameObject container;
         private GameObjectOneWayCache gameObjectOneWayCache;
         private List<GameObject> simObjects;
-        private List<Vector2> points;
+        private Camera camera;
+        private GameObject background;
 
         protected override void OnAwake()
         {
             var prefabsObjects = prefabs.categories.Select((element) => element.Item1).ToArray();
 
-            simObjects = new List<GameObject>(randomObjectsCount);
             container = new GameObject("Foreground Objects");
             container.transform.parent = scenario.transform;
             gameObjectOneWayCache = new GameObjectOneWayCache(container.transform, prefabsObjects);
+            camera = Camera.main;
+            background = GameObject.Find("Background");
+            
         }
 
         protected override void OnIterationStart()
         {
-            //Set new random points each newPointsIterations
-            if (scenario.currentIteration % newPointsIteration == 0)
-                points = PoissonDiscSampling.GeneratePoints(radius, regionSize, new Vector2(0, 0), rejectionSamples);
+            setRandPosition();
+            setRandRotation();
 
-            if (points != null)
+            //Set new random points each newPointsIterations
+            var points = generatePoints();
+            Debug.Log(points.Count());
+
+            if (points.Count() > 0)
             {
-                var pointsCopy = new List<Vector2>(points);
-                int iterations = Mathf.Min(randomObjectsCount, points.Count());
+                int iterations;
+
+                if (points.Count() > 2)
+                    iterations = (int) Mathf.Round(points.Count() * randomObjectsCount);
+                else
+                    iterations = points.Count();
+                
+                iterations = Mathf.Max(iterations, 1);
+                simObjects = new List<GameObject>(iterations);
+                
 
                 //Creates instances of prefabs on random positions from points
                 for (int i = 0; i < iterations; i++)
                 {
-                    int pointId = Random.Range(0, pointsCopy.Count());
+                    int pointId = Random.Range(0, points.Count());
 
-                    createObjAtRandPosAndRot(pointsCopy[pointId]);
-                    pointsCopy.RemoveAt(pointId);
+                    createObjAtRandPosAndRot(points[pointId]);
+                    points.RemoveAt(pointId);
                 }
 
                 if (gameObjectOneWayCache.NumObjectsActive > 0)
-                {
-                    //Get random object from simObjects for targetObject
-                    int objectId = Random.Range(0, simObjects.Count());
-                    GameObject targetObject = simObjects[objectId];
-                    Camera camera = Camera.main;
-
-                    if (targetObject != null)
-                    {
-                        var targetPosition = targetObject.transform.position;
-                        setRandPosition(camera, targetPosition);
-                        setRandRotation(camera, targetPosition);
-                        labelObjects(camera, targetObject);
-                    }
-                }
+                    labelObjects();
             }
         }
 
@@ -85,12 +85,55 @@ namespace Perception.Randomizers
             gameObjectOneWayCache.ResetAllObjects();
             simObjects.Clear();
         }
+        
+        //Generates random points in camera view
+        private List<Vector2> generatePoints()
+        {
+            var cameraPosition = camera.transform.position;
+            var distToPlane = cameraPosition.y;
+            var centerPoint = new Vector2(0, 0);
+            float maxHeight = 0;
+
+            var leftTopPoint = camera.ViewportToWorldPoint(new Vector3(0, 1, distToPlane));
+            var rightTopPoint = camera.ViewportToWorldPoint(new Vector3(1, 1, distToPlane));
+            var centerTopPoint = camera.ViewportToWorldPoint(new Vector3(0.5f, 1, distToPlane));
+            var centerBottomPoint = camera.ViewportToWorldPoint(new Vector3(0.5f, 0, distToPlane));
+
+            var width = Mathf.Abs(leftTopPoint.x - rightTopPoint.x);
+            var height = Mathf.Abs(leftTopPoint.z - centerBottomPoint.z);
+            var distToBottom = Vector3.Distance(cameraPosition, centerBottomPoint);
+
+            if (centerBottomPoint.z < 0)
+            {
+                var c1 = Mathf.Sqrt(Mathf.Pow(maxLabelingDistance, 2) - Mathf.Pow(distToPlane, 2));
+                var c2 = Mathf.Sqrt(Mathf.Pow(distToBottom, 2) - Mathf.Pow(distToPlane, 2));
+                c2 = Mathf.Min(c2, c1);
+                
+                maxHeight = c1 + c2;
+                height = Mathf.Min(height, maxHeight);
+
+                if (c1 != c2)
+                    centerPoint.y = centerBottomPoint.z + height / 2;
+
+            }
+            else
+            {
+                maxHeight = lawOfCosines(distToBottom, maxLabelingDistance, camera.fieldOfView);
+                height = Mathf.Min(height, maxHeight);
+                centerPoint.y = centerBottomPoint.z + height / 2;
+            }
+
+            var regionSize = new Vector2(width, height);
+            Debug.Log(regionSize);
+
+            return PoissonDiscSampling.GeneratePoints(radius, regionSize, centerPoint, rejectionSamples);
+        }
 
         //Create instance of random selected prefab from prefabs and add it to simObjects
         private void createObjAtRandPosAndRot(Vector2 point)
         {
             float rotateY = Random.Range(0, 360f);
-
+            
             var instance = gameObjectOneWayCache.GetOrInstantiate(prefabs.Sample());
             var labeling = instance.GetComponent<Labeling>();
             labeling.enabled = false;
@@ -100,56 +143,39 @@ namespace Perception.Randomizers
         }
 
         //Set random position (x, y, z) of camera with restriction of maxDistance to target object
-        private void setRandPosition(Camera camera, Vector3 center)
+        private void setRandPosition()
         {
-            maxDistance = Mathf.Max(height.max, maxDistance);
-            float delta = height.max - height.min;
-            float h = Random.Range(height.min, height.max);
-            float r = Mathf.Sqrt(Mathf.Pow(maxDistance * h / delta, 2) - Mathf.Pow(h, 2));
-            var randPoint = Random.insideUnitCircle * r;
+            float h = Random.Range(heightLimit.min, heightLimit.max);
 
-            camera.transform.position = new Vector3(randPoint.x, h, randPoint.y) + center;
+            camera.transform.position = new Vector3(0, h, 0);
+        }
+
+        private void setSizeOfBackground()
+        {
+            var distToPlane = camera.transform.position.y;
+            var point = camera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, distToPlane));
+            var distance = Vector3.Distance(camera.transform.position, point);
+            float height = 2.0f * Mathf.Tan(0.5f * camera.fieldOfView * Mathf.Deg2Rad) * distance;
+            float width = height * Screen.width / Screen.height;
+            Debug.Log(background.transform.localScale);
+            Debug.DrawLine(camera.transform.position, point, Color.red);
+
+            background.transform.localScale = new Vector3(width / 10, 1, height / 10);
+            Debug.Log(point);
+            background.transform.position = point;
         }
 
         //Set random rotation of camera to target object
-        private void setRandRotation(Camera camera, Vector3 center)
+        private void setRandRotation()
         {
-            var cameraTransform = camera.transform;
-
-            cameraTransform.LookAt(center);
-
-            float c = camera.pixelHeight / 2 * Mathf.Sqrt(2);
-            float x = Random.Range(0, c);
-            float y = Random.Range(0, c);
-            var cameraCenter = new Vector2(camera.pixelWidth / 2, camera.pixelHeight / 2);
-            var point = new Vector2(x, y) + cameraCenter + Vector2.one * (-c / 2);
-            var pointRotated = Vector2.zero;
-
-            //Rotate point relative to center of camera screen
-            //It makes that random area is a diamond inscribed in a rectangle (screen of the camera)
-            //That's what I found sticking best to make rotation more random and keeping targetObject on view of the camera
-            pointRotated.x = (float) (Mathf.Cos(45) * (point.x - cameraCenter.x)
-                - Mathf.Sin(45) * (point.y - cameraCenter.y) + cameraCenter.x);
-            pointRotated.y = (float) (Mathf.Sin(45) * (point.x - cameraCenter.x)
-                                      + Mathf.Cos(45) * (point.y - cameraCenter.y) + cameraCenter.y);
-
-            //Point to which camera is rotated
-            var rotatePoint =
-                camera.ScreenToWorldPoint(new Vector3(pointRotated.x, pointRotated.y, camera.farClipPlane));
-
-            cameraTransform.LookAt(rotatePoint);
-
-            //Checking if camera angle is not above and under the max and min rotation (from params)
-            var cameraEulerAngles = cameraTransform.rotation.eulerAngles;
-            float rotationX = cameraEulerAngles.x;
-
-            rotationX = Mathf.Max(rotation.min, rotationX);
-            rotationX = Mathf.Min(rotation.max, rotationX);
-            cameraTransform.rotation = Quaternion.Euler(rotationX, cameraEulerAngles.y, cameraEulerAngles.z);
+            var rotationX = Random.Range(rotationLimit, 90);
+            var cameraEulerAngles = camera.transform.rotation.eulerAngles;        
+            
+            camera.transform.rotation = Quaternion.Euler(rotationX, cameraEulerAngles.y, cameraEulerAngles.z);
         }
 
         //Enable label for objects inside maxLabelingDistance
-        private void labelObjects(Camera camera, GameObject targetObject)
+        private void labelObjects()
         {
             for (int i = 0; i < simObjects.Count(); i++)
             {
@@ -157,8 +183,6 @@ namespace Perception.Randomizers
                 var distance = Vector3.Distance(camera.transform.position, gameObj.transform.position);
                 var angle = camera.transform.eulerAngles[0];
                 var limit = maxLabelingDistance - maxLabelingDistance * Mathf.Abs(angle - 90) / 90;
-                var distanceToTarget = Vector3.Distance(camera.transform.position, targetObject.transform.position);
-                limit = Mathf.Max(distanceToTarget, limit);
 
                 if (distance <= limit)
                 {
@@ -169,6 +193,9 @@ namespace Perception.Randomizers
                 }
             }
         }
+
+        private float lawOfCosines(float a, float b, float angle)
+            => Mathf.Sqrt(Mathf.Pow(a, 2) + Mathf.Pow(b, 2) - 2 * a * b * Mathf.Cos(angle));
 
         //Color the gameObject on color
         private void hintObject(Color color, GameObject gameObject)
