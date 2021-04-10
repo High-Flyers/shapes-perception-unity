@@ -8,8 +8,11 @@ namespace UnityTemplateProjects
     public class PoissonTest : MonoBehaviour
     {
         public float maxDistance = 80;
+        public float radius = 3;
 
         private new Camera camera;
+        private List<Vector2> points;
+        private List<Vector3> polygon;
 
         private void Start()
         {
@@ -17,30 +20,29 @@ namespace UnityTemplateProjects
             Debug.Log(camera);
         }
 
-        private void OnDrawGizmos()
+        private void OnValidate()
         {
-            if (!Application.isPlaying) return;
-            
+            Debug.Log("xDDDD");
             var height = camera.transform.position.y;
             var cameraAngles = camera.transform.eulerAngles;
-            var polygon = new List<Vector3>();
             var angleBottom = cameraAngles.x + camera.fieldOfView / 2;
             var angleTop = cameraAngles.x - camera.fieldOfView / 2;
-            var triangleAngle = getTriangleAngle();
-            
-            
+            polygon = new List<Vector3>();
 
             if (angleBottom > 0)
             {
-                Vector3 leftBottom=Vector3.zero, rightBottom=Vector3.zero, leftTop=Vector3.zero, rightTop=Vector3.zero;
+                Vector3 leftBottom = Vector3.zero,
+                    rightBottom = Vector3.zero,
+                    leftTop = Vector3.zero,
+                    rightTop = Vector3.zero;
 
-                var depthBottom = getEdgeLength(angleBottom, height, triangleAngle);
-
-                var depthTop = getEdgeLength(angleTop, height, triangleAngle);
+                var depthBottom = getEdgeLength(Mathf.Abs(90 - angleBottom) * Mathf.Deg2Rad, height,
+                    getTriangleAngle(0));
+                var depthTop = getEdgeLength(Mathf.Abs(90 - angleTop) * Mathf.Deg2Rad, height, getTriangleAngle(0));
 
                 var centerBottom = getPoint(new Vector3(0.5f, 0, maxDistance));
-                var centerTop = getPoint(new Vector3(0.5f, 1, maxDistance)); 
-                
+                var centerTop = getPoint(new Vector3(0.5f, 1, maxDistance));
+
                 if (centerBottom.y < 0)
                 {
                     leftBottom = getPoint(new Vector3(0, 0, depthBottom));
@@ -54,7 +56,7 @@ namespace UnityTemplateProjects
                         var pointOnScreen = camera.WorldToViewportPoint(new Vector3(0, 0, z));
 
                         var angle = Mathf.Acos(height / maxDistance);
-                        var edgeLen = getEdgeLength(angle, height, triangleAngle);
+                        var edgeLen = getEdgeLength(angle, height, getTriangleAngle(pointOnScreen.y));
 
                         leftBottom = getPoint(new Vector3(0, pointOnScreen.y, edgeLen));
                         rightBottom = getPoint(new Vector3(1, pointOnScreen.y, edgeLen));
@@ -63,39 +65,50 @@ namespace UnityTemplateProjects
 
                 if (centerTop.y < 0)
                 {
-                    Debug.Log("xddd");
                     leftTop = getPoint(new Vector3(0, 1, depthTop));
                     rightTop = getPoint(new Vector3(1, 1, depthTop));
-
                 }
                 else
                 {
-                    if( centerBottom.y < 0)
+                    if (centerBottom.y < 0 || angleBottom > 90)
                     {
-                        Debug.Log("xddd2");
-
                         var z = Mathf.Sqrt(Mathf.Pow(maxDistance, 2) - Mathf.Pow(height, 2));
                         var pointOnScreen = camera.WorldToViewportPoint(new Vector3(0, 0, z));
 
                         var angle = Mathf.Acos(height / maxDistance);
-                        var edgeLen = getEdgeLength(angle, height, triangleAngle);
+                        var edgeLen = getEdgeLength(angle, height, getTriangleAngle(pointOnScreen.y));
 
                         leftTop = getPoint(new Vector3(0, pointOnScreen.y, edgeLen));
                         rightTop = getPoint(new Vector3(1, pointOnScreen.y, edgeLen));
                     }
-
                 }
-                if (leftBottom!= Vector3.zero)
-                    polygon.Add(leftBottom);
-                if (rightBottom!= Vector3.zero)
-                    polygon.Add(rightBottom);
-                if (rightTop!= Vector3.zero)
-                    polygon.Add(rightTop);
-                if(leftTop!= Vector3.zero)
-                    polygon.Add(leftTop);
-            }
 
-            if (polygon.Count() >= 2)
+                if (leftBottom != Vector3.zero)
+                    polygon.Add(leftBottom);
+                if (rightBottom != Vector3.zero)
+                    polygon.Add(rightBottom);
+                if (rightTop != Vector3.zero)
+                    polygon.Add(rightTop);
+                if (leftTop != Vector3.zero)
+                    polygon.Add(leftTop);
+
+                var polygon2D = new List<Vector2>();
+                Debug.Log(polygon.Count());
+
+                foreach (var vector in polygon)
+                    polygon2D.Add(new Vector2(vector.x, vector.z));
+
+                points = PoissonDiscSamplingTest.GeneratePoints(8, polygon2D);
+
+                Debug.Log(points.Count());
+            }
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (!Application.isPlaying) return;
+
+            if (polygon != null && polygon.Count() >= 2)
             {
                 for (int i = 0; i < polygon.Count(); i++)
                 {
@@ -105,6 +118,15 @@ namespace UnityTemplateProjects
                         Gizmos.DrawLine(polygon[i], polygon[i + 1]);
                     else
                         Gizmos.DrawLine(polygon[i], polygon[0]);
+                }
+
+                if (points != null)
+                {
+                    foreach (var point in points)
+                    {
+                        var center = new Vector3(point.x, 0, point.y);
+                        Gizmos.DrawSphere(center, radius);
+                    }
                 }
             }
         }
@@ -119,11 +141,11 @@ namespace UnityTemplateProjects
         }
 
 
-        private float getTriangleAngle()
+        private float getTriangleAngle(float y)
         {
             var cameraPosition = camera.transform.position;
-            var centerPoint = camera.ViewportToWorldPoint(new Vector3(0.5f, 0, 1));
-            var rightPoint = camera.ViewportToWorldPoint(new Vector3(1, 0, 1));
+            var centerPoint = camera.ViewportToWorldPoint(new Vector3(0.5f, y, 1));
+            var rightPoint = camera.ViewportToWorldPoint(new Vector3(1, y, 1));
             var h = Vector3.Distance(cameraPosition, centerPoint);
             var c = Vector3.Distance(cameraPosition, rightPoint);
 
@@ -132,11 +154,10 @@ namespace UnityTemplateProjects
 
         private float getEdgeLength(float angle, float height, float triangleAngle)
         {
-            var edgeLen = height / Mathf.Cos(Mathf.Abs(90 - angle) * Mathf.Deg2Rad);
+            var edgeLen = height / Mathf.Cos(angle);
             edgeLen = edgeLen / Mathf.Cos(triangleAngle);
 
             return edgeLen;
         }
     }
-    
 }
