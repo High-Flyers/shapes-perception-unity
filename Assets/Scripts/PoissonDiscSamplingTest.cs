@@ -1,16 +1,20 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
+
 
 public static class PoissonDiscSamplingTest
 {
-    public static List<Vector2> GeneratePoints(float radius, List<Vector2> polygon,
+    public static List<Vector2> GeneratePoints(float offset, List<Vector2> polygon, float[,] sizes,
         int numSamplesBeforeRejection = 30)
     {
         var sampleRegionSize = Vector2.zero;
         var minX = polygon.Min(p => p.x);
         var minY = polygon.Min(p => p.y);
+        
 
         for (int i = 0; i < polygon.Count(); i++)
             polygon[i] = new Vector2(polygon[i].x - minX, polygon[i].y - minY);
@@ -23,18 +27,21 @@ public static class PoissonDiscSamplingTest
         float cellSize = radius / Mathf.Sqrt(2);
         int[,] grid = new int[Mathf.CeilToInt(sampleRegionSize.x / cellSize),
             Mathf.CeilToInt(sampleRegionSize.y / cellSize)];
-        var points = new List<Vector2>();
-        var spawnPoints = new List<Vector2>();
+        var points = new List<Point>();
+        var spawnPoints = new List<Point>();
 
-        float x = Random.Range(0, sampleRegionSize.x);
-        float y = Random.Range(0, sampleRegionSize.y);
+        float x = sampleRegionSize.x / 2;   //Random.Range(0, sampleRegionSize.x);
+        float y = sampleRegionSize.y / 2;   // Random.Range(0, sampleRegionSize.y);
         
-        spawnPoints.Add(new Vector2(x, y));
+        float cumSum = CumSumSizes(ref sizes);
+        int sizeInd = SampleSize(cumSum, sizes);
+        
+        spawnPoints.Add(new Point(new Vector2(x,y), sizes[sizeInd,1], sizeInd));
         
         while (spawnPoints.Count > 0)
         {
             int spawnIndex = Random.Range(0, spawnPoints.Count);
-            Vector2 spawnCentre = spawnPoints[spawnIndex];
+            Point spawnCentre = spawnPoints[spawnIndex];
             bool candidateAccepted = false;
 
             for (int i = 0; i < numSamplesBeforeRejection; i++)
@@ -73,7 +80,7 @@ public static class PoissonDiscSamplingTest
     static bool IsValid(Vector2 candidate, List<Vector2> polygon, float cellSize, float radius, List<Vector2> points,
         int[,] grid)
     {
-        if (containsPoint(polygon, candidate))
+        if (ContainsPoint(polygon, candidate))
         {
             int cellX = (int) (candidate.x / cellSize);
             int cellY = (int) (candidate.y / cellSize);
@@ -104,7 +111,7 @@ public static class PoissonDiscSamplingTest
         return false;
     }
     
-    public static bool containsPoint(List<Vector2> polyPoints, Vector2 p)
+    private static bool ContainsPoint(List<Vector2> polyPoints, Vector2 p)
     {
         var j = polyPoints.Count() - 1;
         var inside = false;
@@ -117,5 +124,30 @@ public static class PoissonDiscSamplingTest
                 inside = !inside;
         }
         return inside;
+    }
+
+    private static float CumSumSizes(ref float[,] sizes)
+    {
+        float sum = 0;
+        for (int i = 0; i < sizes.Length; i++)
+        {
+            sum += sizes[i,1];
+            sizes[i, 1] = sum;
+        }
+
+        return sum;
+    }
+
+    private static int  SampleSize(float maxVal, float[,] sizes)
+    {
+        
+        float randVal = Random.Range(0, maxVal);
+        for (int i = 0; i < sizes.Length; i++)
+        {
+            if (randVal <= sizes[i, 1])
+                return i;
+        }
+
+        return -1;
     }
 }
