@@ -43,7 +43,7 @@ public static class PoissonDiscSamplingTest
                 Vector2 dir = new Vector2(Mathf.Sin(angle), Mathf.Cos(angle));
                 Vector2 candidate = spawnCentre + dir * Random.Range(radius, 2 * radius);
                 
-                if (IsValid(candidate, sampleRegionSize, cellSize, radius, points, grid))
+                if (IsValid(candidate, polygon, cellSize, radius, points, grid))
                 {
                     points.Add(candidate);
                     spawnPoints.Add(candidate);
@@ -70,11 +70,10 @@ public static class PoissonDiscSamplingTest
         return points;
     }
 
-    static bool IsValid(Vector2 candidate, Vector2 sampleRegionSize, float cellSize, float radius, List<Vector2> points,
+    static bool IsValid(Vector2 candidate, List<Vector2> polygon, float cellSize, float radius, List<Vector2> points,
         int[,] grid)
     {
-        if (candidate.x >= 0 && candidate.x < sampleRegionSize.x && candidate.y >= 0 &&
-            candidate.y < sampleRegionSize.y)
+        if (containsPoint(polygon, candidate))
         {
             int cellX = (int) (candidate.x / cellSize);
             int cellY = (int) (candidate.y / cellSize);
@@ -103,5 +102,20 @@ public static class PoissonDiscSamplingTest
         }
 
         return false;
+    }
+    
+    public static bool containsPoint(List<Vector2> polyPoints, Vector2 p)
+    {
+        var j = polyPoints.Count() - 1;
+        var inside = false;
+        for (int i = 0; i < polyPoints.Count(); j = i++)
+        {
+            var pi = polyPoints[i];
+            var pj = polyPoints[j];
+            if (((pi.y <= p.y && p.y < pj.y) || (pj.y <= p.y && p.y < pi.y)) &&
+                (p.x < (pj.x - pi.x) * (p.y - pi.y) / (pj.y - pi.y) + pi.x))
+                inside = !inside;
+        }
+        return inside;
     }
 }
