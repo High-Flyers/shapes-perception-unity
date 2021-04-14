@@ -2,19 +2,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Structures;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 
 public static class PoissonDiscSamplingTest
 {
-    public static List<Vector2> GeneratePoints(float offset, List<Vector2> polygon, float[,] sizes,
+    public static List<Point> GeneratePoints(float offset, List<Vector2> polygon, List<float[]> sizes,
         int numSamplesBeforeRejection = 30)
     {
         var sampleRegionSize = Vector2.zero;
         var minX = polygon.Min(p => p.x);
         var minY = polygon.Min(p => p.y);
-        
 
         for (int i = 0; i < polygon.Count(); i++)
             polygon[i] = new Vector2(polygon[i].x - minX, polygon[i].y - minY);
@@ -24,37 +24,46 @@ public static class PoissonDiscSamplingTest
 
         var center = new Vector2(sampleRegionSize.x / 2 + minX, sampleRegionSize.y / 2 + minY);
 
-        float cellSize = radius / Mathf.Sqrt(2);
+        float minSize = sizes.Min(s => s[0]);
+
+        float cellSize = (minSize + offset) / Mathf.Sqrt(2);
         int[,] grid = new int[Mathf.CeilToInt(sampleRegionSize.x / cellSize),
             Mathf.CeilToInt(sampleRegionSize.y / cellSize)];
+        var pointProps = CreatePointsProps(sizes, offset, cellSize);
         var points = new List<Point>();
         var spawnPoints = new List<Point>();
 
         float x = sampleRegionSize.x / 2;   //Random.Range(0, sampleRegionSize.x);
         float y = sampleRegionSize.y / 2;   // Random.Range(0, sampleRegionSize.y);
         
-        float cumSum = CumSumSizes(ref sizes);
-        int sizeInd = SampleSize(cumSum, sizes);
+        float sumProbs = CumSumProbs(ref pointProps);
+        int propIndex = SamplePointPropsIndex(sumProbs, pointProps);
         
-        spawnPoints.Add(new Point(new Vector2(x,y), sizes[sizeInd,1], sizeInd));
+        spawnPoints.Add(new Point(new Vector2(x, y), propIndex));
         
         while (spawnPoints.Count > 0)
         {
             int spawnIndex = Random.Range(0, spawnPoints.Count);
-            Point spawnCentre = spawnPoints[spawnIndex];
+            Point spawnPoint = spawnPoints[spawnIndex];
             bool candidateAccepted = false;
 
             for (int i = 0; i < numSamplesBeforeRejection; i++)
             {
                 float angle = Random.value * Mathf.PI * 2;
                 Vector2 dir = new Vector2(Mathf.Sin(angle), Mathf.Cos(angle));
-                Vector2 candidate = spawnCentre + dir * Random.Range(radius, 2 * radius);
-                
-                if (IsValid(candidate, polygon, cellSize, radius, points, grid))
+
+                propIndex = SamplePointPropsIndex(sumProbs, pointProps);
+                var candidateProps = pointProps[propIndex];
+                var spawnProps = pointProps[spawnPoint.propIndex];
+                var radius = Mathf.Max(candidateProps.radius, spawnProps.radius);
+                var candidatePos = spawnPoint.position + dir * Random.Range(radius, 2 * radius);
+                var candidate = new Point(candidatePos, propIndex);
+
+                if (IsValid(candidate, pointProps, polygon, cellSize, points, grid))
                 {
                     points.Add(candidate);
                     spawnPoints.Add(candidate);
-                    grid[(int) (candidate.x / cellSize), (int) (candidate.y / cellSize)] = points.Count;
+                    grid[(int) (candidate.position.x / cellSize), (int) (candidate.position.y / cellSize)] = points.Count;
                     candidateAccepted = true;
                     break;
                 }
@@ -69,25 +78,30 @@ public static class PoissonDiscSamplingTest
         center -= sampleRegionSize / 2;
 
         for (int i = 0; i < points.Count; i++)
-            points[i] += center;
-        
+            points[i].position += center;
+
         if (points.Count() == 0)
-            points.Add(new Vector2(x - sampleRegionSize.x / 2, y - sampleRegionSize.y / 2));
-        
+        {
+            var pointPositon = new Vector2(x - sampleRegionSize.x / 2, y - sampleRegionSize.y / 2);
+            points.Add(new Point(pointPositon, SamplePointPropsIndex(sumProbs, pointProps)));
+        }
+
         return points;
     }
 
-    static bool IsValid(Vector2 candidate, List<Vector2> polygon, float cellSize, float radius, List<Vector2> points,
+    static bool IsValid(Point candidate, List<PointProps> pointProps, List<Vector2> polygon, float cellSize, List<Point> points,
         int[,] grid)
     {
-        if (ContainsPoint(polygon, candidate))
+        if (ContainsPoint(polygon, candidate.position))
         {
-            int cellX = (int) (candidate.x / cellSize);
-            int cellY = (int) (candidate.y / cellSize);
-            int searchStartX = Mathf.Max(0, cellX - 2);
-            int searchEndX = Mathf.Min(cellX + 2, grid.GetLength(0) - 1);
-            int searchStartY = Mathf.Max(0, cellY - 2);
-            int searchEndY = Mathf.Min(cellY + 2, grid.GetLength(1) - 1);
+            int cellX = (int) (candidate.position.x / cellSize);
+            int cellY = (int) (candidate.position.y / cellSize);
+            var candidateProps = pointProps[candidate.propIndex];
+            
+            int searchStartX = Mathf.Max(0, cellX - candidateProps.gridsToSearch);
+            int searchEndX = Mathf.Min(cellX + candidateProps.gridsToSearch, grid.GetLength(0) - 1);
+            int searchStartY = Mathf.Max(0, cellY - candidateProps.gridsToSearch);
+            int searchEndY = Mathf.Min(cellY + candidateProps.gridsToSearch, grid.GetLength(1) - 1);
 
             for (int x = searchStartX; x <= searchEndX; x++)
             {
@@ -96,7 +110,10 @@ public static class PoissonDiscSamplingTest
                     int pointIndex = grid[x, y] - 1;
                     if (pointIndex != -1)
                     {
-                        float sqrDst = (candidate - points[pointIndex]).sqrMagnitude;
+                        float sqrDst = (candidate.position - points[pointIndex].position).sqrMagnitude;
+                        var neighbourPointProps = pointProps[points[pointIndex].propIndex];
+                        var radius = Mathf.Max(candidateProps.radius, neighbourPointProps.radius);
+                            
                         if (sqrDst < radius * radius)
                         {
                             return false;
@@ -126,28 +143,41 @@ public static class PoissonDiscSamplingTest
         return inside;
     }
 
-    private static float CumSumSizes(ref float[,] sizes)
+    private static float CumSumProbs(ref List<PointProps> pointProps)
     {
         float sum = 0;
-        for (int i = 0; i < sizes.Length; i++)
+        
+        for (int i = 0; i < pointProps.Count(); i++)
         {
-            sum += sizes[i,1];
-            sizes[i, 1] = sum;
+            sum += pointProps[i].prob;
+            pointProps[i].prob = sum;
         }
 
         return sum;
     }
 
-    private static int  SampleSize(float maxVal, float[,] sizes)
+    private static int SamplePointPropsIndex(float maxVal, List<PointProps> pointProps)
     {
-        
         float randVal = Random.Range(0, maxVal);
-        for (int i = 0; i < sizes.Length; i++)
+        for (int i = 0; i < pointProps.Count(); i++)
         {
-            if (randVal <= sizes[i, 1])
+            if (randVal <= pointProps[i].prob)
                 return i;
         }
 
         return -1;
+    }
+
+    private static List<PointProps> CreatePointsProps(List<float[]> props, float offset, float cellSize)
+    {
+        var pointProps = new List<PointProps>();
+
+        for (int i = 0; i < props.Count(); i++)
+        {
+            props[i][0] += offset;
+            pointProps.Add(new PointProps(props[i], cellSize));
+        }
+
+        return pointProps;
     }
 }

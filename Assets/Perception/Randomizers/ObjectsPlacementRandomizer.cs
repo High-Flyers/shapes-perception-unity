@@ -41,7 +41,6 @@ namespace Perception.Randomizers
             gameObjectOneWayCache = new GameObjectOneWayCache(container.transform, prefabsObjects);
             camera = Camera.main;
             background = GameObject.Find("Background");
-            
         }
 
         protected override void OnIterationStart()

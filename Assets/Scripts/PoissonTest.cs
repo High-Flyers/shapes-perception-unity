@@ -8,16 +8,19 @@ namespace UnityTemplateProjects
     public class PoissonTest : MonoBehaviour
     {
         public float maxDistance = 80;
-        public float radius = 3;
+        public float scale = 0.1f;
 
         private new Camera camera;
-        private List<Vector2> points;
+        private List<Point> points;
         private List<Vector3> polygon;
+        private List<float[]> sizes = new List<float[]>();
 
         private void Start()
         {
             camera = Camera.main;
-            Debug.Log(camera);
+            
+            sizes.Add(new float[] {1f, 0.5f});
+            sizes.Add(new float[] {0.5f, 0.5f});
         }
 
         private void OnValidate()
@@ -98,7 +101,7 @@ namespace UnityTemplateProjects
                 foreach (var vector in polygon)
                     polygon2D.Add(new Vector2(vector.x, vector.z));
 
-                points = PoissonDiscSamplingTest.GeneratePoints(8, polygon2D);
+                points = PoissonDiscSamplingTest.GeneratePoints(1, polygon2D, sizes);
 
                 Debug.Log(points.Count());
             }
@@ -124,8 +127,8 @@ namespace UnityTemplateProjects
                 {
                     foreach (var point in points)
                     {
-                        var center = new Vector3(point.x, 0, point.y);
-                        Gizmos.DrawSphere(center, radius);
+                        var center = new Vector3(point.position.x, 0, point.position.y);
+                        Gizmos.DrawSphere(center, sizes[point.propIndex][0] * scale);
                     }
                 }
             }
