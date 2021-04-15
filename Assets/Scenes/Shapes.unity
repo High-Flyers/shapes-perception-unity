@@ -243,7 +243,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDistance: 80
-  scale: 0.001
+  scale: 0.2
 --- !u!4 &965243377
 Transform:
   m_ObjectHideFlags: 0

@@ -9,32 +9,34 @@ namespace UnityTemplateProjects
     public class PoissonTest : MonoBehaviour
     {
         public float maxDistance = 80;
-        public float scale = 0.1f;
+        public float scale = 1f;
 
         private new Camera camera;
         private List<Point> points;
         private List<Vector3> polygon;
-        private List<float[]> sizes = new List<float[]>();
+        private List<float[]> props = new List<float[]>();
 
         private void Start()
         {
             camera = Camera.main;
 
-            sizes.Add(new float[] {1f, 0.5f});
-            sizes.Add(new float[] {0.5f, 0.5f});
+            props.Add(new[] {3f, 0.05f});
+            props.Add(new[] {1f, 0.95f});
         }
 
         private void OnValidate()
         {
-            Debug.Log("xDDDD");
             var height = camera.transform.position.y;
             var cameraAngles = camera.transform.eulerAngles;
-            var angleBottom =
-                cameraAngles.x + camera.fieldOfView / 2; //bottom  angle of field of view (0 when parallel to ground)
-            var angleTop = cameraAngles.x - camera.fieldOfView / 2; //top angle of field of view
+            
+            // Bottom  angle of field of view (0 when parallel to ground)
+            var angleBottom = cameraAngles.x + camera.fieldOfView / 2;
+            // Top angle of field of view
+            var angleTop = cameraAngles.x - camera.fieldOfView / 2;
+            
             polygon = new List<Vector3>();
 
-            //bottom ray of FOV(field of view) hits the ground - polygon points could be calculated
+            // Bottom ray of FOV(field of view) hits the ground - polygon points could be calculated
             if (angleBottom > 0)
             {
                 Vector3 leftBottom = Vector3.zero,
@@ -47,12 +49,12 @@ namespace UnityTemplateProjects
                 var depthTop = getEdgeLength(Mathf.Abs(90 - angleTop) * Mathf.Deg2Rad, height,
                     getTriangleAngle(0)); //top FOV edge length
 
-                var centerBottom =
-                    getPoint(new Vector3(0.5f, 0, maxDistance)); // point in the center of bottom closing FOV edge 
-                var centerTop =
-                    getPoint(new Vector3(0.5f, 1, maxDistance)); // point in the center of top closing FOV edge 
+                // Point in the center of bottom closing FOV edge
+                var centerBottom = getPoint(new Vector3(0.5f, 0, maxDistance)); 
+                // Point in the center of top closing FOV edge 
+                var centerTop = getPoint(new Vector3(0.5f, 1, maxDistance));
 
-                // get bottom polygon points basing on full camera FOV
+                // Get bottom polygon points basing on full camera FOV
                 if (centerBottom.y < 0)
                 {
                     leftBottom = getPoint(new Vector3(0, 0, depthBottom));
@@ -60,12 +62,12 @@ namespace UnityTemplateProjects
                 }
                 else
                 {
-                    // get bottom polygon points basing on maxDistance, when angleBottom < 90 there is no way to spawn them
+                    // Get bottom polygon points basing on maxDistance, when angleBottom < 90 there is no way to spawn them
                     if (angleBottom > 90)
                         getPointsByMaxDist(out leftBottom, out rightBottom, height, -1);
                 }
 
-                // get top polygon points basing on full camera FOV 
+                // Get top polygon points basing on full camera FOV 
                 if (centerTop.y < 0)
                 {
                     leftTop = getPoint(new Vector3(0, 1, depthTop));
@@ -73,12 +75,12 @@ namespace UnityTemplateProjects
                 }
                 else
                 {
-                    // get top polygon points basing on maxDistance
+                    // Get top polygon points basing on maxDistance
                     if (centerBottom.y < 0 || angleBottom > 90)
                         getPointsByMaxDist(out leftTop, out rightTop, height, 1);
                 }
 
-                //add points to polygon
+                // Add points to polygon
                 foreach (var point in new List<Vector3> {leftBottom, rightBottom, rightTop, leftTop})
                 {
                     if (point != Vector3.zero)
@@ -86,18 +88,15 @@ namespace UnityTemplateProjects
                 }
 
                 var polygon2D = new List<Vector2>();
-                Debug.Log(polygon.Count());
 
                 foreach (var vector in polygon)
                     polygon2D.Add(new Vector2(vector.x, vector.z));
 
-                points = PoissonDiscSamplingTest.GeneratePoints(1, polygon2D, sizes);
-
-                Debug.Log(points.Count());
+                points = PoissonDiscSamplingTest.GeneratePoints(polygon2D, 3, props);
             }
         }
 
-        //draw spawning area and spheres in generated points
+        // Draw spawning area and spheres in generated points
         private void OnDrawGizmos()
         {
             if (!Application.isPlaying) return;
@@ -119,7 +118,7 @@ namespace UnityTemplateProjects
                     foreach (var point in points)
                     {
                         var center = new Vector3(point.position.x, 0, point.position.y);
-                        Gizmos.DrawSphere(center, sizes[point.propId][0] * scale);
+                        Gizmos.DrawSphere(center, props[point.propId][0] * scale);
                     }
                 }
             }

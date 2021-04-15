@@ -1,4 +1,6 @@
-﻿namespace Structures
+﻿using System.Collections.Generic;
+
+namespace Structures
 {
     public class PointProps
     {
