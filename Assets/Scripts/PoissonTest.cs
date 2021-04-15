@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace UnityTemplateProjects
@@ -18,7 +19,7 @@ namespace UnityTemplateProjects
         private void Start()
         {
             camera = Camera.main;
-            
+
             sizes.Add(new float[] {1f, 0.5f});
             sizes.Add(new float[] {0.5f, 0.5f});
         }
@@ -28,10 +29,12 @@ namespace UnityTemplateProjects
             Debug.Log("xDDDD");
             var height = camera.transform.position.y;
             var cameraAngles = camera.transform.eulerAngles;
-            var angleBottom = cameraAngles.x + camera.fieldOfView / 2;
-            var angleTop = cameraAngles.x - camera.fieldOfView / 2;
+            var angleBottom =
+                cameraAngles.x + camera.fieldOfView / 2; //bottom  angle of field of view (0 when parallel to ground)
+            var angleTop = cameraAngles.x - camera.fieldOfView / 2; //top angle of field of view
             polygon = new List<Vector3>();
 
+            //bottom ray of FOV(field of view) hits the ground - polygon points could be calculated
             if (angleBottom > 0)
             {
                 Vector3 leftBottom = Vector3.zero,
@@ -40,12 +43,16 @@ namespace UnityTemplateProjects
                     rightTop = Vector3.zero;
 
                 var depthBottom = getEdgeLength(Mathf.Abs(90 - angleBottom) * Mathf.Deg2Rad, height,
-                    getTriangleAngle(0));
-                var depthTop = getEdgeLength(Mathf.Abs(90 - angleTop) * Mathf.Deg2Rad, height, getTriangleAngle(0));
+                    getTriangleAngle(0)); //bottom FOV edge length
+                var depthTop = getEdgeLength(Mathf.Abs(90 - angleTop) * Mathf.Deg2Rad, height,
+                    getTriangleAngle(0)); //top FOV edge length
 
-                var centerBottom = getPoint(new Vector3(0.5f, 0, maxDistance));
-                var centerTop = getPoint(new Vector3(0.5f, 1, maxDistance));
+                var centerBottom =
+                    getPoint(new Vector3(0.5f, 0, maxDistance)); // point in the center of bottom closing FOV edge 
+                var centerTop =
+                    getPoint(new Vector3(0.5f, 1, maxDistance)); // point in the center of top closing FOV edge 
 
+                // get bottom polygon points basing on full camera FOV
                 if (centerBottom.y < 0)
                 {
                     leftBottom = getPoint(new Vector3(0, 0, depthBottom));
@@ -53,19 +60,12 @@ namespace UnityTemplateProjects
                 }
                 else
                 {
+                    // get bottom polygon points basing on maxDistance, when angleBottom < 90 there is no way to spawn them
                     if (angleBottom > 90)
-                    {
-                        var z = -Mathf.Sqrt(Mathf.Pow(maxDistance, 2) - Mathf.Pow(height, 2));
-                        var pointOnScreen = camera.WorldToViewportPoint(new Vector3(0, 0, z));
-
-                        var angle = Mathf.Acos(height / maxDistance);
-                        var edgeLen = getEdgeLength(angle, height, getTriangleAngle(pointOnScreen.y));
-
-                        leftBottom = getPoint(new Vector3(0, pointOnScreen.y, edgeLen));
-                        rightBottom = getPoint(new Vector3(1, pointOnScreen.y, edgeLen));
-                    }
+                        getPointsByMaxDist(out leftBottom, out rightBottom, height, -1);
                 }
 
+                // get top polygon points basing on full camera FOV 
                 if (centerTop.y < 0)
                 {
                     leftTop = getPoint(new Vector3(0, 1, depthTop));
@@ -73,27 +73,17 @@ namespace UnityTemplateProjects
                 }
                 else
                 {
+                    // get top polygon points basing on maxDistance
                     if (centerBottom.y < 0 || angleBottom > 90)
-                    {
-                        var z = Mathf.Sqrt(Mathf.Pow(maxDistance, 2) - Mathf.Pow(height, 2));
-                        var pointOnScreen = camera.WorldToViewportPoint(new Vector3(0, 0, z));
-
-                        var angle = Mathf.Acos(height / maxDistance);
-                        var edgeLen = getEdgeLength(angle, height, getTriangleAngle(pointOnScreen.y));
-
-                        leftTop = getPoint(new Vector3(0, pointOnScreen.y, edgeLen));
-                        rightTop = getPoint(new Vector3(1, pointOnScreen.y, edgeLen));
-                    }
+                        getPointsByMaxDist(out leftTop, out rightTop, height, 1);
                 }
 
-                if (leftBottom != Vector3.zero)
-                    polygon.Add(leftBottom);
-                if (rightBottom != Vector3.zero)
-                    polygon.Add(rightBottom);
-                if (rightTop != Vector3.zero)
-                    polygon.Add(rightTop);
-                if (leftTop != Vector3.zero)
-                    polygon.Add(leftTop);
+                //add points to polygon
+                foreach (var point in new List<Vector3> {leftBottom, rightBottom, rightTop, leftTop})
+                {
+                    if (point != Vector3.zero)
+                        polygon.Add(point);
+                }
 
                 var polygon2D = new List<Vector2>();
                 Debug.Log(polygon.Count());
@@ -107,6 +97,7 @@ namespace UnityTemplateProjects
             }
         }
 
+        //draw spawning area and spheres in generated points
         private void OnDrawGizmos()
         {
             if (!Application.isPlaying) return;
@@ -134,6 +125,8 @@ namespace UnityTemplateProjects
             }
         }
 
+        /// Get point, which is distant from camera basing on viewport direction 
+        /// viewport - x,y - camera viewport, z- relative distance from camera
         private Vector3 getPoint(Vector3 viewport)
         {
             Vector3 direction = camera.ViewportPointToRay(viewport).direction;
@@ -144,6 +137,8 @@ namespace UnityTemplateProjects
         }
 
 
+        /// Get half of vertical angle of FOV - based on y viewport coordinate
+        /// y - y coordinate of FOV 
         private float getTriangleAngle(float y)
         {
             var cameraPosition = camera.transform.position;
@@ -155,12 +150,33 @@ namespace UnityTemplateProjects
             return Mathf.Acos(h / c);
         }
 
+        /// Get edge length of useful part of FOV
+        /// angle - angle from vertical line to middle of FOV face
+        /// height - camera height
+        /// triangleAngle - half of vertical angle of FOV - based on y viewport
         private float getEdgeLength(float angle, float height, float triangleAngle)
         {
             var edgeLen = height / Mathf.Cos(angle);
             edgeLen = edgeLen / Mathf.Cos(triangleAngle);
 
             return edgeLen;
+        }
+
+        /// Get polygon points basing on max distance
+        /// leftPoint
+        /// rightPoint
+        /// height - height of camera
+        /// edgeNum - bottom(-1) or top(1) edge of polygon
+        private void getPointsByMaxDist(out Vector3 leftPoint, out Vector3 rightPoint, float height, int edgeNum)
+        {
+            var z = edgeNum * Mathf.Sqrt(Mathf.Pow(maxDistance, 2) - Mathf.Pow(height, 2));
+            var pointOnScreen = camera.WorldToViewportPoint(new Vector3(0, 0, z));
+
+            var angle = Mathf.Acos(height / maxDistance);
+            var edgeLen = getEdgeLength(angle, height, getTriangleAngle(pointOnScreen.y));
+
+            leftPoint = getPoint(new Vector3(0, pointOnScreen.y, edgeLen));
+            rightPoint = getPoint(new Vector3(1, pointOnScreen.y, edgeLen));
         }
     }
 }
