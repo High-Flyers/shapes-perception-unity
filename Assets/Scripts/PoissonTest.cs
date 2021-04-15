@@ -128,7 +128,7 @@ namespace UnityTemplateProjects
                     foreach (var point in points)
                     {
                         var center = new Vector3(point.position.x, 0, point.position.y);
-                        Gizmos.DrawSphere(center, sizes[point.propIndex][0] * scale);
+                        Gizmos.DrawSphere(center, sizes[point.propId][0] * scale);
                     }
                 }
             }

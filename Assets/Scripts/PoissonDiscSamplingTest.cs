@@ -54,7 +54,7 @@ public static class PoissonDiscSamplingTest
 
                 propIndex = SamplePointPropsIndex(sumProbs, pointProps);
                 var candidateProps = pointProps[propIndex];
-                var spawnProps = pointProps[spawnPoint.propIndex];
+                var spawnProps = pointProps[spawnPoint.propId];
                 var radius = Mathf.Max(candidateProps.radius, spawnProps.radius);
                 var candidatePos = spawnPoint.position + dir * Random.Range(radius, 2 * radius);
                 var candidate = new Point(candidatePos, propIndex);
@@ -96,7 +96,7 @@ public static class PoissonDiscSamplingTest
         {
             int cellX = (int) (candidate.position.x / cellSize);
             int cellY = (int) (candidate.position.y / cellSize);
-            var candidateProps = pointProps[candidate.propIndex];
+            var candidateProps = pointProps[candidate.propId];
             
             int searchStartX = Mathf.Max(0, cellX - candidateProps.gridsToSearch);
             int searchEndX = Mathf.Min(cellX + candidateProps.gridsToSearch, grid.GetLength(0) - 1);
@@ -111,7 +111,7 @@ public static class PoissonDiscSamplingTest
                     if (pointIndex != -1)
                     {
                         float sqrDst = (candidate.position - points[pointIndex].position).sqrMagnitude;
-                        var neighbourPointProps = pointProps[points[pointIndex].propIndex];
+                        var neighbourPointProps = pointProps[points[pointIndex].propId];
                         var radius = Mathf.Max(candidateProps.radius, neighbourPointProps.radius);
                             
                         if (sqrDst < radius * radius)

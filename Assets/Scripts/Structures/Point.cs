@@ -5,11 +5,11 @@ using UnityEngine;
 public class Point
 {
     public Vector2 position;
-    public int propIndex;
+    public int propId;
 
-    public Point(Vector2 position, int propIndex)
+    public Point(Vector2 position, int propId)
     {
         this.position = position;
-        this.propIndex = propIndex;
+        this.propId = propId;
     }
 }
