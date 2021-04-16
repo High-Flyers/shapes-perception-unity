@@ -19,9 +19,7 @@ namespace Perception.Randomizers
     {
         public GameObjectParameter prefabs;
         public float randomObjectsCount = 0.3f;
-        public float radius = 10;
-        public int rejectionSamples = 30;
-        
+
         public float maxLabelingDistance = 100;
         public MinMaxParameter heightLimit = new MinMaxParameter(5, 40);
         public float rotationLimit = 60;
@@ -31,6 +29,7 @@ namespace Perception.Randomizers
         private List<GameObject> simObjects;
         private Camera camera;
         private GameObject background;
+        private PointsInCameraViewGen pointsGen;
 
         protected override void OnAwake()
         {
@@ -41,6 +40,10 @@ namespace Perception.Randomizers
             gameObjectOneWayCache = new GameObjectOneWayCache(container.transform, prefabsObjects);
             camera = Camera.main;
             background = GameObject.Find("Background");
+            var props = new List<float[]>();
+            //props.Add(new[] {3f, 0.05f});
+            props.Add(new[] {1.42f, 1f});
+            pointsGen = new PointsInCameraViewGen(props, camera, maxLabelingDistance, 3);
         }
 
         protected override void OnIterationStart()
@@ -49,7 +52,7 @@ namespace Perception.Randomizers
             setRandRotation();
 
             //Set new random points each newPointsIterations
-            var points = generatePoints();
+            var points = pointsGen.generatePoints();
             Debug.Log(points.Count());
 
             if (points.Count() > 0)
@@ -85,58 +88,17 @@ namespace Perception.Randomizers
             simObjects.Clear();
         }
         
-        //Generates random points in camera view
-        private List<Vector2> generatePoints()
-        {
-            var cameraPosition = camera.transform.position;
-            var distToPlane = cameraPosition.y;
-            var centerPoint = new Vector2(0, 0);
-            float maxHeight = 0;
-
-            var leftTopPoint = camera.ViewportToWorldPoint(new Vector3(0, 1, distToPlane));
-            var rightTopPoint = camera.ViewportToWorldPoint(new Vector3(1, 1, distToPlane));
-            var centerTopPoint = camera.ViewportToWorldPoint(new Vector3(0.5f, 1, distToPlane));
-            var centerBottomPoint = camera.ViewportToWorldPoint(new Vector3(0.5f, 0, distToPlane));
-
-            var width = Mathf.Abs(leftTopPoint.x - rightTopPoint.x);
-            var height = Mathf.Abs(leftTopPoint.z - centerBottomPoint.z);
-            var distToBottom = Vector3.Distance(cameraPosition, centerBottomPoint);
-
-            if (centerBottomPoint.z < 0)
-            {
-                var c1 = Mathf.Sqrt(Mathf.Pow(maxLabelingDistance, 2) - Mathf.Pow(distToPlane, 2));
-                var c2 = Mathf.Sqrt(Mathf.Pow(distToBottom, 2) - Mathf.Pow(distToPlane, 2));
-                c2 = Mathf.Min(c2, c1);
-                
-                maxHeight = c1 + c2;
-                height = Mathf.Min(height, maxHeight);
-
-                if (c1 != c2)
-                    centerPoint.y = centerBottomPoint.z + height / 2;
-
-            }
-            else
-            {
-                maxHeight = lawOfCosines(distToBottom, maxLabelingDistance, camera.fieldOfView);
-                height = Mathf.Min(height, maxHeight);
-                centerPoint.y = centerBottomPoint.z + height / 2;
-            }
-
-            var regionSize = new Vector2(width, height);
-            Debug.Log(regionSize);
-
-            return PoissonDiscSampling.GeneratePoints(radius, regionSize, centerPoint, rejectionSamples);
-        }
+        
 
         //Create instance of random selected prefab from prefabs and add it to simObjects
-        private void createObjAtRandPosAndRot(Vector2 point)
+        private void createObjAtRandPosAndRot(Point point)
         {
             float rotateY = Random.Range(0, 360f);
             
             var instance = gameObjectOneWayCache.GetOrInstantiate(prefabs.Sample());
             var labeling = instance.GetComponent<Labeling>();
             labeling.enabled = false;
-            instance.transform.position = new Vector3(point.x, 0.1f, point.y);
+            instance.transform.position = new Vector3(point.position.x, 0.1f, point.position.y);
             instance.transform.rotation = Quaternion.Euler(0, rotateY, 0);
             simObjects.Add(instance);
         }

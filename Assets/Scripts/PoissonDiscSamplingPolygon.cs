@@ -6,7 +6,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 
-public static class PoissonDiscSamplingTest
+public static class PoissonDiscSamplingPolygon
 {
     /// <summary>
     ///     Function to generate random points using poisson disc sampling method
