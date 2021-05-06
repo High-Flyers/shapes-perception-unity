@@ -26,7 +26,7 @@ namespace Perception.Randomizers
                 var material = materialsArray[materialId];
                 var meshRenderer = tag.GetComponent<MeshRenderer>();
                 
-                material.mainTextureScale = new Vector2(40, 40);
+                material.mainTextureScale = new Vector2(15, 15);
                 meshRenderer.material = material;
             }
         }
