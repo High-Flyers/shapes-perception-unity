@@ -14,7 +14,7 @@ using Random = UnityEngine.Random;
 namespace Perception.Randomizers
 {
     [Serializable]
-    [AddRandomizerMenu("Perception/Randomizers/ObjectsInCameraViewRandomizer")]
+    [AddRandomizerMenu("Perception/CustomRandomizers/ObjectsInCameraViewRandomizer")]
     public class ObjectsPlacementRandomizer : Randomizer
     {
         public GameObjectParameter prefabs;

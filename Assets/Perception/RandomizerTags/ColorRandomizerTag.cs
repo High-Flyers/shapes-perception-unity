@@ -3,8 +3,8 @@ using UnityEngine.Perception.Randomization.Randomizers;
 
 namespace Perception.RandomizerTags
 {
-    [AddComponentMenu("Perception/CustomRandomizerTags/MaterialRandomizerTag")]
-    public class MaterialRandomizerTag : RandomizerTag
+    [AddComponentMenu("Perception/CustomRandomizerTags/ColorRandomizerTag")]
+    public class ColorRandomizerTag : RandomizerTag
     {
         
     }

@@ -12,8 +12,7 @@ GameObject:
   - component: {fileID: 1773380479478190847}
   - component: {fileID: 4573589519210128949}
   - component: {fileID: -2805367336546189124}
-  - component: {fileID: -5391820364180143783}
-  - component: {fileID: 8462837887335681734}
+  - component: {fileID: 774358729428578921}
   m_Layer: 8
   m_Name: rectangle
   m_TagString: Untagged
@@ -98,7 +97,7 @@ MonoBehaviour:
   - rectangle
   useAutoLabeling: 0
   autoLabelingSchemeType: 
---- !u!114 &-5391820364180143783
+--- !u!114 &774358729428578921
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,19 +106,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 2627950574063552480}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8823429b12641208135cb2bd79e1096, type: 3}
+  m_Script: {fileID: 11500000, guid: 96df36c6afa644aeb77fca1986a919e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &8462837887335681734
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2627950574063552480}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2, y: 2, z: 2}
-  m_Center: {x: 0, y: 0, z: 0}

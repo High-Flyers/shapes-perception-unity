@@ -211,7 +211,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: 80, z: 0}
 --- !u!1 &1473657247
 GameObject:
@@ -306,7 +306,7 @@ Transform:
   m_LocalScale: {x: 100, y: 1, z: 100}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1473657253
 MonoBehaviour:
@@ -412,7 +412,7 @@ Transform:
   m_LocalScale: {x: 100, y: 1, z: 100}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1687258581
 GameObject:
@@ -637,11 +637,47 @@ MonoBehaviour:
         collapsed: 0
         materials:
           collapsed: 0
-          probabilities: []
+          probabilities:
+          - 0.055555556
+          - 0.055555556
+          - 0.055555556
+          - 0.055555556
+          - 0.055555556
+          - 0.055555556
+          - 0.055555556
+          - 0.055555556
+          - 0.055555556
+          - 0.055555556
+          - 0.055555556
+          - 0.055555556
+          - 0.055555556
+          - 0.055555556
+          - 0.055555556
+          - 0.055555556
+          - 0.055555556
+          - 0.055555556
           uniform: 1
           m_Sampler:
             id: 3
-          m_Categories: []
+          m_Categories:
+          - {fileID: 2100000, guid: d805d830c4023774cb6259aca09f431e, type: 2}
+          - {fileID: 2100000, guid: 893960384de673345a82517892b28bc7, type: 2}
+          - {fileID: 2100000, guid: 020b997e4fa23c74297e208cd649319c, type: 2}
+          - {fileID: 2100000, guid: fedc75da63b32e249bccd7450cd29351, type: 2}
+          - {fileID: 2100000, guid: 2c6f5ab601d22834883d3c7e18f8be41, type: 2}
+          - {fileID: 2100000, guid: 15654a743eccf384fb2312048db767f0, type: 2}
+          - {fileID: 2100000, guid: d86005a29439b7541ade84523818db1a, type: 2}
+          - {fileID: 2100000, guid: 059cceb0ba6e50741bfe6ec2c755d5f4, type: 2}
+          - {fileID: 2100000, guid: 49c3c02661a83fd42b33859cfbf9a17d, type: 2}
+          - {fileID: 2100000, guid: 9dccf2dcc78efe741b7931e3bb85beaf, type: 2}
+          - {fileID: 2100000, guid: 5558b5711d37782468eeee5c2880e7d8, type: 2}
+          - {fileID: 2100000, guid: 224de5a1c3ba5f948af30bd7826e4666, type: 2}
+          - {fileID: 2100000, guid: e7268e596932cb541834f57d320a4677, type: 2}
+          - {fileID: 2100000, guid: bce0cd8cdfffc2a41b798316325a24d2, type: 2}
+          - {fileID: 2100000, guid: 5674184a87d87e54ca8047426601a57b, type: 2}
+          - {fileID: 2100000, guid: 748487d582b00d847bd57517f78d8e8f, type: 2}
+          - {fileID: 2100000, guid: 36508c771463abf43b7135d9539897e7, type: 2}
+          - {fileID: 2100000, guid: 42e26e838cb21e944aa7de2aae4edefc, type: 2}
         textures:
           m_OverrideState: 0
           m_Value: {fileID: 0}
@@ -653,18 +689,16 @@ MonoBehaviour:
         prefabs:
           collapsed: 0
           probabilities:
-          - 0.25
-          - 0.25
-          - 0.25
-          - 0.25
+          - 0.33333334
+          - 0.33333334
+          - 0.33333334
           uniform: 1
           m_Sampler:
             id: 4
           m_Categories:
-          - {fileID: 5234421476371481281, guid: 4b2e076988ea66f47b3f91c549081ac4, type: 3}
-          - {fileID: 2627950574063552480, guid: c553f3f50ebbf8946ac26b9946aa99dc, type: 3}
-          - {fileID: 209842380097882152, guid: 98b104e922799df4bbdfb09aa72f540f, type: 3}
-          - {fileID: 0}
+          - {fileID: 6241376353416775657, guid: 66fcfc3354d9e5f4b87a2cdd7416e2d6, type: 3}
+          - {fileID: 3727245897366786196, guid: aed54fd3898ae0a46afe6e4504fb8eef, type: 3}
+          - {fileID: 6922105635888946382, guid: 7e44a5ba8fc937f43936940037563fe7, type: 3}
         randomObjectsCount: 0.2
         maxLabelingDistance: 80
         heightLimit:
@@ -672,8 +706,7 @@ MonoBehaviour:
           max: 40
         rotationLimit: 80
     00000002:
-      type: {class: ColorRandomizer, ns: UnityEngine.Perception.Randomization.Randomizers.SampleRandomizers,
-        asm: Unity.Perception.Runtime}
+      type: {class: ColorRandomizer, ns: Perception.Randomizers, asm: Assembly-CSharp}
       data:
         m_Enabled: 1
         collapsed: 0
@@ -713,7 +746,7 @@ MonoBehaviour:
         asm: Unity.Perception.Runtime}
       data:
         range:
-          minimum: 0.6
+          minimum: 0
           maximum: 1
     00000007:
       type: {class: UniformSampler, ns: UnityEngine.Perception.Randomization.Samplers,
@@ -741,72 +774,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &5903892144889337697
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3727245897366786196, guid: aed54fd3898ae0a46afe6e4504fb8eef,
-        type: 3}
-      propertyPath: m_Name
-      value: square_on_plane
-      objectReference: {fileID: 0}
-    - target: {fileID: 4103349674296216110, guid: aed54fd3898ae0a46afe6e4504fb8eef,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4103349674296216110, guid: aed54fd3898ae0a46afe6e4504fb8eef,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 173.94215
-      objectReference: {fileID: 0}
-    - target: {fileID: 4103349674296216110, guid: aed54fd3898ae0a46afe6e4504fb8eef,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 3.717655e-17
-      objectReference: {fileID: 0}
-    - target: {fileID: 4103349674296216110, guid: aed54fd3898ae0a46afe6e4504fb8eef,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -167.4283
-      objectReference: {fileID: 0}
-    - target: {fileID: 4103349674296216110, guid: aed54fd3898ae0a46afe6e4504fb8eef,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4103349674296216110, guid: aed54fd3898ae0a46afe6e4504fb8eef,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4103349674296216110, guid: aed54fd3898ae0a46afe6e4504fb8eef,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4103349674296216110, guid: aed54fd3898ae0a46afe6e4504fb8eef,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4103349674296216110, guid: aed54fd3898ae0a46afe6e4504fb8eef,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4103349674296216110, guid: aed54fd3898ae0a46afe6e4504fb8eef,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4103349674296216110, guid: aed54fd3898ae0a46afe6e4504fb8eef,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: aed54fd3898ae0a46afe6e4504fb8eef, type: 3}

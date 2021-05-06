@@ -9,7 +9,7 @@ using UnityEngine.Rendering;
 namespace Perception.Randomizers
 {
     [Serializable]
-    [AddRandomizerMenu("Perception/Randomizers/MaterialRandomizer")]
+    [AddRandomizerMenu("Perception/CustomRandomizers/MaterialRandomizer")]
     public class MaterialRandomizer : Randomizer
     {
         public MaterialParameter materials;

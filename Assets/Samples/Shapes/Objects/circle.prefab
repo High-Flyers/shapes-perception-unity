@@ -12,8 +12,7 @@ GameObject:
   - component: {fileID: 8376815843613546462}
   - component: {fileID: 6027112528077906708}
   - component: {fileID: 88757102240131182}
-  - component: {fileID: 1427735070018995527}
-  - component: {fileID: 3232125785175278176}
+  - component: {fileID: 4913478456199279622}
   m_Layer: 8
   m_Name: circle
   m_TagString: Untagged
@@ -98,7 +97,7 @@ MonoBehaviour:
   - circle
   useAutoLabeling: 0
   autoLabelingSchemeType: 
---- !u!114 &1427735070018995527
+--- !u!114 &4913478456199279622
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,19 +106,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 5234421476371481281}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8823429b12641208135cb2bd79e1096, type: 3}
+  m_Script: {fileID: 11500000, guid: 96df36c6afa644aeb77fca1986a919e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &3232125785175278176
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5234421476371481281}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2, y: 2, z: 2}
-  m_Center: {x: 0, y: 0, z: 0}
