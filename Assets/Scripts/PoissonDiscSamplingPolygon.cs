@@ -50,11 +50,12 @@ public static class PoissonDiscSamplingPolygon
         // Calc cellSize from min radius and grid,
         // which will be used for searching free spaces for candidate point
         float minRadius = propsCopy.Min(p => p[0]);
+        float maxRadius = propsCopy.Max(p => p[0]);
         float cellSize = minRadius / Mathf.Sqrt(2);
         int[,] grid = new int[Mathf.CeilToInt(sampleRegionSize.x / cellSize),
             Mathf.CeilToInt(sampleRegionSize.y / cellSize)];
 
-        var pointProps = CreatePointsProps(propsCopy, cellSize);
+        var pointProps = CreatePointsProps(propsCopy, cellSize, maxRadius);
         var points = new List<Point>();
         var spawnPoints = new List<Point>();
 
@@ -81,7 +82,7 @@ public static class PoissonDiscSamplingPolygon
                 var candidatePropsId = SamplePointPropsId(sumProbs, pointProps);
                 var candidateProps = pointProps[candidatePropsId];
                 var spawnProps = pointProps[spawnPoint.propId];
-                var radius = Mathf.Max(candidateProps.radius, spawnProps.radius);
+                var radius = candidateProps.radius + spawnProps.radius;
                 var candidatePos = spawnPoint.position + dir * Random.Range(radius, 2 * radius);
                 var candidate = new Point(candidatePos, candidatePropsId);
 
@@ -224,12 +225,12 @@ public static class PoissonDiscSamplingPolygon
         return -1;
     }
 
-    private static List<PointProps> CreatePointsProps(List<float[]> props, float cellSize)
+    private static List<PointProps> CreatePointsProps(List<float[]> props, float cellSize, float maxRadius)
     {
         var pointProps = new List<PointProps>();
 
         for (int i = 0; i < props.Count(); i++)
-            pointProps.Add(new PointProps(props[i], cellSize));
+            pointProps.Add(new PointProps(props[i], cellSize, maxRadius));
 
         return pointProps;
     }

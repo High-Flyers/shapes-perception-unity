@@ -4,6 +4,7 @@ using Perception.RandomizerTags;
 using UnityEngine;
 using UnityEngine.Perception.Randomization.Parameters;
 using UnityEngine.Perception.Randomization.Randomizers;
+using UnityEngine.Rendering;
 
 namespace Perception.Randomizers
 {
@@ -12,6 +13,7 @@ namespace Perception.Randomizers
     public class MaterialRandomizer : Randomizer
     {
         public MaterialParameter materials;
+        public TextureParameter textures;
 
         protected override void OnIterationStart()
         {

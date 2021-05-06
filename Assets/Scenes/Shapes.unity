@@ -320,6 +320,100 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 452d672fea77496bae10726c3250afcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1629971428
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1629971432}
+  - component: {fileID: 1629971431}
+  - component: {fileID: 1629971430}
+  - component: {fileID: 1629971429}
+  m_Layer: 0
+  m_Name: Plane
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!64 &1629971429
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1629971428}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &1629971430
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1629971428}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 56a76376229a4a14897be1a76b059c99, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &1629971431
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1629971428}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1629971432
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1629971428}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 100, y: 1, z: 100}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1687258581
 GameObject:
   m_ObjectHideFlags: 0
@@ -543,45 +637,14 @@ MonoBehaviour:
         collapsed: 0
         materials:
           collapsed: 0
-          probabilities:
-          - 0.055555556
-          - 0.055555556
-          - 0.055555556
-          - 0.055555556
-          - 0.055555556
-          - 0.055555556
-          - 0.055555556
-          - 0.055555556
-          - 0.055555556
-          - 0.055555556
-          - 0.055555556
-          - 0.055555556
-          - 0.055555556
-          - 0.055555556
-          - 0.055555556
-          - 0.055555556
-          - 0.055555556
+          probabilities: []
           uniform: 1
           m_Sampler:
             id: 3
-          m_Categories:
-          - {fileID: 2100000, guid: d805d830c4023774cb6259aca09f431e, type: 2}
-          - {fileID: 2100000, guid: 893960384de673345a82517892b28bc7, type: 2}
-          - {fileID: 2100000, guid: 020b997e4fa23c74297e208cd649319c, type: 2}
-          - {fileID: 2100000, guid: fedc75da63b32e249bccd7450cd29351, type: 2}
-          - {fileID: 2100000, guid: 2c6f5ab601d22834883d3c7e18f8be41, type: 2}
-          - {fileID: 2100000, guid: 15654a743eccf384fb2312048db767f0, type: 2}
-          - {fileID: 2100000, guid: d86005a29439b7541ade84523818db1a, type: 2}
-          - {fileID: 2100000, guid: 059cceb0ba6e50741bfe6ec2c755d5f4, type: 2}
-          - {fileID: 2100000, guid: 49c3c02661a83fd42b33859cfbf9a17d, type: 2}
-          - {fileID: 2100000, guid: 9dccf2dcc78efe741b7931e3bb85beaf, type: 2}
-          - {fileID: 2100000, guid: 5558b5711d37782468eeee5c2880e7d8, type: 2}
-          - {fileID: 2100000, guid: 224de5a1c3ba5f948af30bd7826e4666, type: 2}
-          - {fileID: 2100000, guid: e7268e596932cb541834f57d320a4677, type: 2}
-          - {fileID: 2100000, guid: bce0cd8cdfffc2a41b798316325a24d2, type: 2}
-          - {fileID: 2100000, guid: 5674184a87d87e54ca8047426601a57b, type: 2}
-          - {fileID: 2100000, guid: 748487d582b00d847bd57517f78d8e8f, type: 2}
-          - {fileID: 2100000, guid: 36508c771463abf43b7135d9539897e7, type: 2}
+          m_Categories: []
+        textures:
+          m_OverrideState: 0
+          m_Value: {fileID: 0}
     00000001:
       type: {class: ObjectsPlacementRandomizer, ns: Perception.Randomizers, asm: Assembly-CSharp}
       data:
@@ -590,9 +653,10 @@ MonoBehaviour:
         prefabs:
           collapsed: 0
           probabilities:
-          - 0.33333334
-          - 0.33333334
-          - 0.33333334
+          - 0.25
+          - 0.25
+          - 0.25
+          - 0.25
           uniform: 1
           m_Sampler:
             id: 4
@@ -600,6 +664,7 @@ MonoBehaviour:
           - {fileID: 5234421476371481281, guid: 4b2e076988ea66f47b3f91c549081ac4, type: 3}
           - {fileID: 2627950574063552480, guid: c553f3f50ebbf8946ac26b9946aa99dc, type: 3}
           - {fileID: 209842380097882152, guid: 98b104e922799df4bbdfb09aa72f540f, type: 3}
+          - {fileID: 0}
         randomObjectsCount: 0.2
         maxLabelingDistance: 80
         heightLimit:
