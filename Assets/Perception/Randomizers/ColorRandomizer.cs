@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.Perception.GroundTruth;
 using UnityEngine.Perception.Randomization.Parameters;
 using UnityEngine.Perception.Randomization.Randomizers;
+using UnityEngine.Perception.Randomization.Samplers;
+using Random = UnityEngine.Random;
 
 namespace Perception.Randomizers
 {
@@ -19,7 +21,7 @@ namespace Perception.Randomizers
         protected override void OnIterationStart()
         {
             var tags = tagManager.Query<ColorRandomizerTag>();
-            
+            RenderSettings.ambientIntensity = Random.Range(2f, 4.5f);
             foreach (var tag in tags)
             {
                 string label = tag.GetComponent<Labeling>().labels[0];
@@ -34,7 +36,12 @@ namespace Perception.Randomizers
                         var renderer = child.gameObject.GetComponent<Renderer>();
 
                         if (child.name == shapeName)
-                            renderer.material.color = colorParameter.Sample();
+                        {
+                            var copyColorParameter = colorParameter;
+                            copyColorParameter.saturation = new UniformSampler(0.5f, 1f);
+                            renderer.material.color = copyColorParameter.Sample();
+                            
+                        }
                         // else
                         //     renderer.material.color = colorParameter.Sample();
                     }
