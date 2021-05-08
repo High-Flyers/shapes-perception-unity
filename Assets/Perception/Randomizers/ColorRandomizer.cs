@@ -37,19 +37,22 @@ namespace Perception.Randomizers
 
                         if (child.name == shapeName)
                         {
-                            var copyColorParameter = colorParameter;
-                            copyColorParameter.saturation = new UniformSampler(0.5f, 1f);
+                            var copyColorParameter = new ColorHsvaParameter {saturation = new UniformSampler(0.4f, 1f)};
                             renderer.material.color = copyColorParameter.Sample();
                             
                         }
-                        // else
-                        //     renderer.material.color = colorParameter.Sample();
+                        else if(child.name == "Plane")
+                        {
+                            var copyColorParameter = new ColorHsvaParameter {saturation = new UniformSampler(0f, 0.3f)};
+                            renderer.material.color = copyColorParameter.Sample();
+                        }
                     }
                 }
                 else
                 {
                     var rendererTag = tag.GetComponent<Renderer>();
                     rendererTag.material.SetColor(k_BaseColor, colorParameter.Sample());
+                    Debug.Log(rendererTag.material.color);
                 }
             }
         }
