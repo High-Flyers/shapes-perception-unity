@@ -545,7 +545,7 @@ MonoBehaviour:
   - id: 2
   constants:
     randomSeed: 539662031
-    totalIterations: 3000
+    totalIterations: 10000
     instanceCount: 1
     instanceIndex: 0
     framesPerIteration: 1
