@@ -27,5 +27,7 @@ MonoBehaviour:
     id: 5
   - label: borsch
     id: 6
+  - label: rectTriangleOnPlane
+    id: 7
   autoAssignIds: 1
   startingLabelId: 0

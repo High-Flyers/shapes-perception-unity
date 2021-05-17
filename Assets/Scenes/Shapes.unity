@@ -680,12 +680,13 @@ MonoBehaviour:
         prefabs:
           collapsed: 0
           probabilities:
-          - 0.14285715
-          - 0.14285715
-          - 0.14285715
-          - 0.14285715
-          - 0.14285715
-          uniform: 1
+          - 0.16666667
+          - 0.16666667
+          - 0.16666667
+          - 0.16666667
+          - 0.1666667
+          - 0.1666667
+          uniform: 0
           m_Sampler:
             id: 4
           m_Categories:
@@ -694,6 +695,7 @@ MonoBehaviour:
           - {fileID: 2627950574063552480, guid: c553f3f50ebbf8946ac26b9946aa99dc, type: 3}
           - {fileID: 209842380097882152, guid: 98b104e922799df4bbdfb09aa72f540f, type: 3}
           - {fileID: 6241376353416775657, guid: 66fcfc3354d9e5f4b87a2cdd7416e2d6, type: 3}
+          - {fileID: 1393409260214515588, guid: 711f4bc5e9ff8e543ac6cac8677f7fbd, type: 3}
         specialPrefabs:
           collapsed: 1
           probabilities:
