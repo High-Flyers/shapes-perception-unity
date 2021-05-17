@@ -25,5 +25,7 @@ MonoBehaviour:
     id: 4
   - label: circleOnPlane
     id: 5
+  - label: borsch
+    id: 6
   autoAssignIds: 1
   startingLabelId: 0

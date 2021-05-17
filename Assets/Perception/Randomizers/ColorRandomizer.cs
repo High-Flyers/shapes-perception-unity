@@ -39,13 +39,22 @@ namespace Perception.Randomizers
                         {
                             var copyColorParameter = new ColorHsvaParameter {saturation = new UniformSampler(0.35f, 1f)};
                             renderer.material.color = copyColorParameter.Sample();
-                            
                         }
                         else if(child.name == "Plane")
                         {
                             var copyColorParameter = new ColorHsvaParameter {saturation = new UniformSampler(0f, 0.25f), value = new UniformSampler(0.8f, 1f)};
                             renderer.material.color = copyColorParameter.Sample();
                         }
+                    }
+                }
+                else if (label == "borsch")
+                {
+                    for (int i = 0; i < tag.gameObject.transform.childCount; i++)
+                    {
+                        var child = tag.gameObject.transform.GetChild(i);
+                        var renderer = child.gameObject.GetComponent<Renderer>();
+                        
+                        renderer.material.color = colorParameter.Sample();
                     }
                 }
                 else
