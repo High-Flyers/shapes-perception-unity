@@ -469,7 +469,7 @@ MonoBehaviour:
   - id: 2
   - id: 3
   description: 
-  captureRgbImages: 1
+  captureRgbImages: 0
   firstCaptureFrame: 0
   captureTriggerMode: 0
   manualSensorAffectSimulationTiming: 0
@@ -680,12 +680,11 @@ MonoBehaviour:
         prefabs:
           collapsed: 0
           probabilities:
-          - 0.16666667
-          - 0.16666667
-          - 0.16666667
-          - 0.16666667
-          - 0.16666667
-          - 0.16666667
+          - 0.14285715
+          - 0.14285715
+          - 0.14285715
+          - 0.14285715
+          - 0.14285715
           uniform: 1
           m_Sampler:
             id: 4
@@ -693,10 +692,18 @@ MonoBehaviour:
           - {fileID: 5234421476371481281, guid: 4b2e076988ea66f47b3f91c549081ac4, type: 3}
           - {fileID: 6922105635888946382, guid: 7e44a5ba8fc937f43936940037563fe7, type: 3}
           - {fileID: 2627950574063552480, guid: c553f3f50ebbf8946ac26b9946aa99dc, type: 3}
-          - {fileID: 3727245897366786196, guid: aed54fd3898ae0a46afe6e4504fb8eef, type: 3}
           - {fileID: 209842380097882152, guid: 98b104e922799df4bbdfb09aa72f540f, type: 3}
           - {fileID: 6241376353416775657, guid: 66fcfc3354d9e5f4b87a2cdd7416e2d6, type: 3}
-        randomObjectsCount: 0.2
+        specialPrefabs:
+          collapsed: 1
+          probabilities:
+          - 1
+          uniform: 1
+          m_Sampler:
+            id: 5
+          m_Categories:
+          - {fileID: 5203879029341042750, guid: 183345b6e6750944daf3a8e4e8ccf32c, type: 3}
+        randomObjectsCount: 0.3
         maxLabelingDistance: 80
         heightLimit:
           min: 5
@@ -710,13 +717,13 @@ MonoBehaviour:
         colorParameter:
           collapsed: 0
           hue:
-            id: 5
-          saturation:
             id: 6
-          value:
+          saturation:
             id: 7
-          alpha:
+          value:
             id: 8
+          alpha:
+            id: 9
     00000003:
       type: {class: UniformSampler, ns: UnityEngine.Perception.Randomization.Samplers,
         asm: Unity.Perception.Runtime}
@@ -753,6 +760,13 @@ MonoBehaviour:
           minimum: 0
           maximum: 1
     00000008:
+      type: {class: UniformSampler, ns: UnityEngine.Perception.Randomization.Samplers,
+        asm: Unity.Perception.Runtime}
+      data:
+        range:
+          minimum: 0
+          maximum: 1
+    00000009:
       type: {class: ConstantSampler, ns: UnityEngine.Perception.Randomization.Samplers,
         asm: Unity.Perception.Runtime}
       data:

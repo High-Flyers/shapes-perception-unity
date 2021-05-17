@@ -18,6 +18,7 @@ namespace Perception.Randomizers
     public class ObjectsPlacementRandomizer : Randomizer
     {
         public GameObjectParameter prefabs;
+        public GameObjectParameter specialPrefabs;
         public float randomObjectsCount = 0.3f;
 
         public float maxLabelingDistance = 100;
@@ -34,15 +35,16 @@ namespace Perception.Randomizers
         protected override void OnAwake()
         {
             var prefabsObjects = prefabs.categories.Select((element) => element.Item1).ToArray();
+            var specialPrefabsObjects = specialPrefabs.categories.Select((element) => element.Item1).ToArray();
 
             container = new GameObject("Foreground Objects");
             container.transform.parent = scenario.transform;
-            gameObjectOneWayCache = new GameObjectOneWayCache(container.transform, prefabsObjects);
+            gameObjectOneWayCache = new GameObjectOneWayCache(container.transform, prefabsObjects.Concat(specialPrefabsObjects).ToArray());
             camera = Camera.main;
             background = GameObject.Find("Background");
             var props = new List<float[]>();
-            //props.Add(new[] {3f, 0.05f});
-            props.Add(new[] {1.42f, 1f});
+            props.Add(new[] {1.42f, 0.7f});
+            props.Add(new[] {4.5f, 0.3f});
             pointsGen = new PointsInCameraViewGen(props, camera, maxLabelingDistance, 3);
         }
 
@@ -94,8 +96,14 @@ namespace Perception.Randomizers
         private void createObjAtRandPosAndRot(Point point)
         {
             float rotateY = Random.Range(0, 360f);
+            GameObject prefab;
+
+            if (point.propId == 1)
+                prefab = specialPrefabs.Sample();
+            else
+                prefab = prefabs.Sample();
             
-            var instance = gameObjectOneWayCache.GetOrInstantiate(prefabs.Sample());
+            var instance = gameObjectOneWayCache.GetOrInstantiate(prefab);
             var labeling = instance.GetComponent<Labeling>();
             labeling.enabled = false;
             instance.transform.position = new Vector3(point.position.x, 0.1f, point.position.y);
