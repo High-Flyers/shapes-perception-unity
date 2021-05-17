@@ -545,7 +545,7 @@ MonoBehaviour:
   - id: 2
   constants:
     randomSeed: 539662031
-    totalIterations: 3000
+    totalIterations: 10000
     instanceCount: 1
     instanceIndex: 0
     framesPerIteration: 1
@@ -559,22 +559,6 @@ MonoBehaviour:
         materials:
           collapsed: 0
           probabilities:
-          - 0.014285714
-          - 0.014285714
-          - 0.014285714
-          - 0.014285714
-          - 0.014285714
-          - 0.014285714
-          - 0.014285714
-          - 0.014285714
-          - 0.014285714
-          - 0.014285714
-          - 0.014285714
-          - 0.014285714
-          - 0.014285714
-          - 0.014285714
-          - 0.014285714
-          - 0.014285714
           - 0.014285714
           - 0.014285714
           - 0.014285714
@@ -663,44 +647,28 @@ MonoBehaviour:
           - {fileID: 2100000, guid: 70f68717629a834429e0c18909abfcdb, type: 2}
           - {fileID: 2100000, guid: 8602dad3c1dfdb34ea19c3e18751a6f9, type: 2}
           - {fileID: 2100000, guid: ea5952ee14ee3e947a244bbfdc12a35a, type: 2}
-          - {fileID: 2100000, guid: b6f78e3f5c958734892d45d785b290e6, type: 2}
-          - {fileID: 2100000, guid: 5d9c41511a91c4d48b3ea5c411eebd3b, type: 2}
           - {fileID: 2100000, guid: 6863f2aa95700454396fe646ad377b4c, type: 2}
           - {fileID: 2100000, guid: 548249982d45d7449bcfc6fcfcd008e7, type: 2}
           - {fileID: 2100000, guid: ed95258c4b7242641a8d7c4c858f9755, type: 2}
           - {fileID: 2100000, guid: acc07b0a3c49ef04bb950bc11fe1a87a, type: 2}
           - {fileID: 2100000, guid: 30702cbfce864814e9f234d1fbf74a5b, type: 2}
           - {fileID: 2100000, guid: c56251620d8200c4e8d938f2c1dfb4e2, type: 2}
-          - {fileID: 2100000, guid: f7f857fcd94b6254989885c304b08800, type: 2}
           - {fileID: 2100000, guid: 64f56e427a1c8484d8417b695d34d279, type: 2}
           - {fileID: 2100000, guid: de56cd563f1c7204384942f321f1a0af, type: 2}
           - {fileID: 2100000, guid: a136c70f02711354cbf5eef7ccf5a7d2, type: 2}
           - {fileID: 2100000, guid: 2830beeb0fdee4048ae7d592c1acb896, type: 2}
           - {fileID: 2100000, guid: 5b28289be5092b444812458ec3f8104d, type: 2}
-          - {fileID: 2100000, guid: ec84ded229e436a42a24dc2390192839, type: 2}
-          - {fileID: 2100000, guid: e1bd9db03f49bfd4cb0e905d66bf8bfb, type: 2}
           - {fileID: 2100000, guid: 0c465604c70ed63489f2ee6b8d476aee, type: 2}
           - {fileID: 2100000, guid: 0ff2b5649c0d822449cc1ad6b7fb1431, type: 2}
-          - {fileID: 2100000, guid: 586dd616715e0274fb558d9191095cd3, type: 2}
-          - {fileID: 2100000, guid: a6d2729624be73b4387a97b8e4695c11, type: 2}
           - {fileID: 2100000, guid: d6de9435bd8793b438713b60485669af, type: 2}
           - {fileID: 2100000, guid: 10d786bf3b41c424095f87eb014cea32, type: 2}
-          - {fileID: 2100000, guid: 7a502abaf306a9c43ac9002e85c81f93, type: 2}
-          - {fileID: 2100000, guid: c840a4c5ceac8b7409f505fd465a6ff1, type: 2}
-          - {fileID: 2100000, guid: 878e44bf87ae08e4990f4be55308a2a1, type: 2}
           - {fileID: 2100000, guid: 22dc6c8f63828614289650a95e8b1395, type: 2}
-          - {fileID: 2100000, guid: 049af4b89ca3a2b4b814a817600d0a73, type: 2}
-          - {fileID: 2100000, guid: 7bfbf763946ef234291fc4dabd8161a3, type: 2}
-          - {fileID: 2100000, guid: 23b90d500cac9f34dafc2a8246263a8a, type: 2}
           - {fileID: 2100000, guid: f7e6e7359b362ab4baad580d9e5321f7, type: 2}
           - {fileID: 2100000, guid: 26ba57d318341ef438d558bc36a32821, type: 2}
           - {fileID: 2100000, guid: 52b269a715cb79240ade9a477a1384e3, type: 2}
           - {fileID: 2100000, guid: ed2d7f3b64337944785707d5387ebb97, type: 2}
           - {fileID: 2100000, guid: 56d1548425415d94a983f56e161b7099, type: 2}
-          - {fileID: 2100000, guid: b1efd8aa7962b414f80506079586d4b4, type: 2}
           - {fileID: 2100000, guid: ce4696a222478a545839e50bf470c891, type: 2}
-          - {fileID: 2100000, guid: 27ef7ddd52aed0c479b74e1d3d8b6d96, type: 2}
-          - {fileID: 2100000, guid: 6e07802bfb75d0146ac4fd9670cb2dd2, type: 2}
         textures:
           m_OverrideState: 0
           m_Value: {fileID: 0}
@@ -733,7 +701,7 @@ MonoBehaviour:
         heightLimit:
           min: 5
           max: 40
-        rotationLimit: 80
+        rotationLimit: 85
     00000002:
       type: {class: ColorRandomizer, ns: Perception.Randomizers, asm: Assembly-CSharp}
       data:

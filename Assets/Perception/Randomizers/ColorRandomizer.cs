@@ -37,13 +37,13 @@ namespace Perception.Randomizers
 
                         if (child.name == shapeName)
                         {
-                            var copyColorParameter = new ColorHsvaParameter {saturation = new UniformSampler(0.4f, 1f)};
+                            var copyColorParameter = new ColorHsvaParameter {saturation = new UniformSampler(0.35f, 1f)};
                             renderer.material.color = copyColorParameter.Sample();
                             
                         }
                         else if(child.name == "Plane")
                         {
-                            var copyColorParameter = new ColorHsvaParameter {saturation = new UniformSampler(0f, 0.3f)};
+                            var copyColorParameter = new ColorHsvaParameter {saturation = new UniformSampler(0f, 0.25f), value = new UniformSampler(0.8f, 1f)};
                             renderer.material.color = copyColorParameter.Sample();
                         }
                     }
