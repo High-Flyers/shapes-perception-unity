@@ -469,7 +469,7 @@ MonoBehaviour:
   - id: 2
   - id: 3
   description: 
-  captureRgbImages: 0
+  captureRgbImages: 1
   firstCaptureFrame: 0
   captureTriggerMode: 0
   manualSensorAffectSimulationTiming: 0
@@ -545,7 +545,7 @@ MonoBehaviour:
   - id: 2
   constants:
     randomSeed: 539662031
-    totalIterations: 10000
+    totalIterations: 20000
     instanceCount: 1
     instanceIndex: 0
     framesPerIteration: 1

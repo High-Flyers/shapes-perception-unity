@@ -21,13 +21,11 @@ MonoBehaviour:
     id: 2
   - label: triangleOnPlane
     id: 3
-  - label: rectangleOnPlane
-    id: 4
   - label: circleOnPlane
-    id: 5
+    id: 4
   - label: borsch
-    id: 6
+    id: 5
   - label: rectTriangleOnPlane
-    id: 7
+    id: 6
   autoAssignIds: 1
   startingLabelId: 0
