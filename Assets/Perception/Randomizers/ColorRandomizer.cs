@@ -6,6 +6,7 @@ using UnityEngine.Perception.GroundTruth;
 using UnityEngine.Perception.Randomization.Parameters;
 using UnityEngine.Perception.Randomization.Randomizers;
 using UnityEngine.Perception.Randomization.Samplers;
+using UnityTemplateProjects.Enum;
 using Random = UnityEngine.Random;
 
 namespace Perception.Randomizers
@@ -24,45 +25,28 @@ namespace Perception.Randomizers
             RenderSettings.ambientIntensity = Random.Range(2f, 4.5f);
             foreach (var tag in tags)
             {
-                string label = tag.GetComponent<Labeling>().labels[0];
-                
-                if (label.Contains("OnPlane"))
-                {
-                    string shapeName = label.Replace("OnPlane", "");
+                        var renderer = tag.gameObject.GetComponent<Renderer>();
 
-                    for (int i = 0; i < tag.gameObject.transform.childCount; i++)
-                    {
-                        var child = tag.gameObject.transform.GetChild(i);
-                        var renderer = child.gameObject.GetComponent<Renderer>();
-
-                        if (child.name == shapeName)
+                        if (tag.type == ColorObjectType.Figure || tag.type == ColorObjectType.Stick )
                         {
-                            var copyColorParameter = new ColorHsvaParameter {saturation = new UniformSampler(0.35f, 1f)};
-                            renderer.material.color = copyColorParameter.Sample();
+                            renderer.material.SetColor(k_BaseColor, colorParameter.Sample());
                         }
-                        else if(child.name == "Plane")
+                        else if(tag.type == ColorObjectType.Plane)
                         {
                             var copyColorParameter = new ColorHsvaParameter {saturation = new UniformSampler(0f, 0.25f), value = new UniformSampler(0.8f, 1f)};
                             renderer.material.color = copyColorParameter.Sample();
                         }
-                    }
-                }
-                else if (label == "borsch")
-                {
-                    for (int i = 0; i < tag.gameObject.transform.childCount; i++)
-                    {
-                        var child = tag.gameObject.transform.GetChild(i);
-                        var renderer = child.gameObject.GetComponent<Renderer>();
-                        
-                        renderer.material.color = colorParameter.Sample();
-                    }
-                }
-                else
-                {
-                    var rendererTag = tag.GetComponent<Renderer>();
-                    rendererTag.material.SetColor(k_BaseColor, colorParameter.Sample());
-                    Debug.Log(rendererTag.material.color);
-                }
+                        else if(tag.type == ColorObjectType.FigureOnPlane)
+                        {
+                            var copyColorParameter = new ColorHsvaParameter {saturation = new UniformSampler(0.35f, 1f)};
+                            renderer.material.color = copyColorParameter.Sample();
+                        }
+                        else
+                        {
+                            var rendererTag = tag.GetComponent<Renderer>();
+                            rendererTag.material.SetColor(k_BaseColor, colorParameter.Sample());
+                            Debug.Log(rendererTag.material.color);
+                        }
             }
         }
     }

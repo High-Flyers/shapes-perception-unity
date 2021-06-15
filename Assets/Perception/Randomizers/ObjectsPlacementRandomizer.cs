@@ -43,8 +43,8 @@ namespace Perception.Randomizers
             camera = Camera.main;
             background = GameObject.Find("Background");
             var props = new List<float[]>();
-            props.Add(new[] {1.42f, 0.7f});
-            props.Add(new[] {4.5f, 0.3f});
+            props.Add(new[] {1.42f, 1f});
+            // props.Add(new[] {4.5f, 0.3f});
             pointsGen = new PointsInCameraViewGen(props, camera, maxLabelingDistance, 3);
         }
 
@@ -105,7 +105,7 @@ namespace Perception.Randomizers
             
             var instance = gameObjectOneWayCache.GetOrInstantiate(prefab);
             var labeling = instance.GetComponent<Labeling>();
-            labeling.enabled = false;
+            // labeling.enabled = false;
             instance.transform.position = new Vector3(point.position.x, 0.1f, point.position.y);
             instance.transform.rotation = Quaternion.Euler(0, rotateY, 0);
             simObjects.Add(instance);
