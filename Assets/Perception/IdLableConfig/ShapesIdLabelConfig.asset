@@ -13,19 +13,9 @@ MonoBehaviour:
   m_Name: ShapesIdLabelConfig
   m_EditorClassIdentifier: 
   m_LabelEntries:
-  - label: triangle
+  - label: CircleOnPlaneStick
     id: 0
-  - label: rectangle
+  - label: CircleStick
     id: 1
-  - label: circle
-    id: 2
-  - label: triangleOnPlane
-    id: 3
-  - label: circleOnPlane
-    id: 4
-  - label: borsch
-    id: 5
-  - label: rectTriangleOnPlane
-    id: 6
   autoAssignIds: 1
   startingLabelId: 0
