@@ -9,17 +9,19 @@ Import project and open scene [Shapes](Assets/Scenes/Shapes.unity)
 
 There are a few objects on the scene, which define image generating scenario:
 
-In MainCamera > Perception Camera script you can select if generated data should be saved or visualized. There is also a output path(where images are saved).
+In MainCamera > Perception Camera script you can select if generated data should be saved or visualized.
 
-In Simulation Scenario > Fixed Length Scenario you can define:
+In Simulation Scenario > Fixed Length Scenario script you can define:
  - Number of images which will be generated (in Scenario properties)
  - Objects which will be spawned (in Randomizers), you could drag and drop selected prefab from [Objects](Assets/Samples/Shapes/Objects) directory to the script.
  - Different background's textures 
  - Parameters for objects' color randomizer and spawning probability.
  - Camera's limits for labeling 
  
-Labelling config can be changed in [ShapesIdLableConfig](Assets\Perception\IdLableConfig\ShapesIdLabelConfig.asset), only objects which are defined there, will be labeled.
+Labelling config can be changed in [ShapesIdLableConfig](Assets/Perception/IdLableConfig/ShapesIdLabelConfig.asset), only objects which are defined there, will be labeled!
 
-After data generation, labels and images should be divided into sets and converted to form required by certain neural network model. For YOLOv5, you can use [script](https://github.com/High-Flyers/vision-analysis/blob/main/get_perception_images.py) from vision-analysis repo.
+When configuration is ready, just press play button to generate data. Results will be saved in output path printed in MainCamera > Perception Camera script.
+
+After data generation, labels and images should be divided into sets and converted to form required by certain neural network model. For [YOLOv5](https://github.com/ultralytics/yolov5), you can use [script](https://github.com/High-Flyers/vision-analysis/blob/main/get_perception_images.py) from vision-analysis repo.
 
 
