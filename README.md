@@ -10,6 +10,8 @@ Import project and open scene [Shapes](Assets/Scenes/Shapes.unity)
 There are a few objects on the scene, which define image generating scenario:
 
 In MainCamera > Perception Camera script you can select if generated data should be saved or visualized.
+![obraz](https://user-images.githubusercontent.com/56251265/159175511-6afa1090-e26c-40b6-aa70-24fbbc23af16.png)
+
 
 In Simulation Scenario > Fixed Length Scenario script you can define:
  - Number of images which will be generated (in Scenario properties)
@@ -18,10 +20,13 @@ In Simulation Scenario > Fixed Length Scenario script you can define:
  - Parameters for objects' color randomizer and spawning probability.
  - Camera's limits for labeling 
  
-Labelling config can be changed in [ShapesIdLableConfig](Assets/Perception/IdLableConfig/ShapesIdLabelConfig.asset), only objects which are defined there, will be labeled!
+![obraz](https://user-images.githubusercontent.com/56251265/159176247-faebfc9f-3e03-4b37-835f-f22850abebfc.png)
 
-When configuration is ready, just press play button to generate data. Results will be saved in output path printed in MainCamera > Perception Camera script.
+ 
+Labelling config can be changed in [ShapesIdLableConfig](Assets/Perception/IdLableConfig/ShapesIdLabelConfig.asset), only objects which are defined there, will be labeled!!!
 
-After data generation, labels and images should be divided into sets and converted to form required by certain neural network model. For [YOLOv5](https://github.com/ultralytics/yolov5), you can use [script](https://github.com/High-Flyers/vision-analysis/blob/main/get_perception_images.py) from vision-analysis repo.
+When the configuration is ready, just press play button to generate data. Results will be saved in output path printed in MainCamera > Perception Camera script, labels regarding all generated images are saved in Dataset.../capture_X.json file.
+
+After data generation, labels and images must be divided into sets and converted to form required by certain neural network model. For [YOLOv5](https://github.com/ultralytics/yolov5), you can use [script](https://github.com/High-Flyers/vision-analysis/blob/main/get_perception_images.py) from vision-analysis repo.
 
 
