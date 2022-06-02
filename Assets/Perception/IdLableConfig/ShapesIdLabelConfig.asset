@@ -17,5 +17,7 @@ MonoBehaviour:
     id: 0
   - label: CircleStick
     id: 1
+  - label: RectangleStick
+    id: 2
   autoAssignIds: 1
   startingLabelId: 0

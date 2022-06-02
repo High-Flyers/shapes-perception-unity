@@ -691,7 +691,7 @@ MonoBehaviour:
           - {fileID: 6575054288597543920, guid: fc4d27c9efab8a040b5f79fb71011f9c, type: 3}
           - {fileID: 3795887088123153818, guid: 0d0c9e0a3b0154d4bb9d563223ca2507, type: 3}
           - {fileID: 209842380097882152, guid: 98b104e922799df4bbdfb09aa72f540f, type: 3}
-          - {fileID: 2627950574063552480, guid: c553f3f50ebbf8946ac26b9946aa99dc, type: 3}
+          - {fileID: 1153207689553606369, guid: 20f5a8f45c6358b4b9c4beab69419079, type: 3}
         specialPrefabs:
           collapsed: 0
           probabilities: []
@@ -702,8 +702,8 @@ MonoBehaviour:
         randomObjectsCount: 0.3
         maxLabelingDistance: 80
         heightLimit:
-          min: 10
-          max: 37
+          min: 7
+          max: 30
         rotationLimit: 85
     00000002:
       type: {class: ColorRandomizer, ns: Perception.Randomizers, asm: Assembly-CSharp}
