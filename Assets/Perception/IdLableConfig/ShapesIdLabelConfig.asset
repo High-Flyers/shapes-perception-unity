@@ -13,11 +13,15 @@ MonoBehaviour:
   m_Name: ShapesIdLabelConfig
   m_EditorClassIdentifier: 
   m_LabelEntries:
-  - label: CircleOnPlaneStick
+  - label: BlueBallPlane
     id: 0
-  - label: CircleStick
+  - label: RedBallPlane
     id: 1
-  - label: RectangleStick
+  - label: YellowBallPlane
     id: 2
+  - label: VioletBallPlane
+    id: 3
+  - label: Barrel
+    id: 4
   autoAssignIds: 1
   startingLabelId: 0

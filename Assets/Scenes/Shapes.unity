@@ -469,7 +469,7 @@ MonoBehaviour:
   - id: 2
   - id: 3
   description: 
-  captureRgbImages: 1
+  captureRgbImages: 0
   firstCaptureFrame: 0
   captureTriggerMode: 0
   manualSensorAffectSimulationTiming: 0
@@ -545,7 +545,7 @@ MonoBehaviour:
   - id: 2
   constants:
     randomSeed: 539662031
-    totalIterations: 20000
+    totalIterations: 15000
     instanceCount: 1
     instanceIndex: 0
     framesPerIteration: 1
@@ -680,18 +680,20 @@ MonoBehaviour:
         prefabs:
           collapsed: 0
           probabilities:
-          - 0.25
-          - 0.25
-          - 0.25
-          - 0.25
+          - 0.2
+          - 0.2
+          - 0.2
+          - 0.2
+          - 0.2
           uniform: 1
           m_Sampler:
             id: 4
           m_Categories:
-          - {fileID: 6575054288597543920, guid: fc4d27c9efab8a040b5f79fb71011f9c, type: 3}
-          - {fileID: 3795887088123153818, guid: 0d0c9e0a3b0154d4bb9d563223ca2507, type: 3}
-          - {fileID: 209842380097882152, guid: 98b104e922799df4bbdfb09aa72f540f, type: 3}
-          - {fileID: 1153207689553606369, guid: 20f5a8f45c6358b4b9c4beab69419079, type: 3}
+          - {fileID: 2493653446004240621, guid: b6b3e746e09233c48a481fc699d980dc, type: 3}
+          - {fileID: 454517152338183059, guid: 8ea504e93607c064f8b944878ee03fc2, type: 3}
+          - {fileID: 416186735056730963, guid: 7efdffd1b82d9d54eba9d4c04a435cc3, type: 3}
+          - {fileID: 6098589616552375918, guid: 4814ab1bcf8422b4b8cdb51dc9de380a, type: 3}
+          - {fileID: 6312315600854017619, guid: 19182ee35e884d04e82c81df12414c6f, type: 3}
         specialPrefabs:
           collapsed: 0
           probabilities: []
@@ -699,11 +701,11 @@ MonoBehaviour:
           m_Sampler:
             id: 5
           m_Categories: []
-        randomObjectsCount: 0.3
+        randomObjectsCount: 0.4
         maxLabelingDistance: 80
         heightLimit:
-          min: 7
-          max: 30
+          min: 5
+          max: 12
         rotationLimit: 85
     00000002:
       type: {class: ColorRandomizer, ns: Perception.Randomizers, asm: Assembly-CSharp}

@@ -33,12 +33,38 @@ namespace Perception.Randomizers
                         }
                         else if(tag.type == ColorObjectType.Plane)
                         {
-                            var copyColorParameter = new ColorHsvaParameter {saturation = new UniformSampler(0f, 0.25f), value = new UniformSampler(0.8f, 1f)};
+                            var copyColorParameter = new ColorHsvaParameter {saturation = new UniformSampler(0f, 0.15f), value = new UniformSampler(0.85f, 1f)};
                             renderer.material.color = copyColorParameter.Sample();
                         }
                         else if(tag.type == ColorObjectType.FigureOnPlane)
                         {
                             var copyColorParameter = new ColorHsvaParameter {saturation = new UniformSampler(0.35f, 1f)};
+                            renderer.material.color = copyColorParameter.Sample();
+                        }
+                        else if(tag.type == ColorObjectType.BlueBall)
+                        {
+                            var copyColorParameter = new ColorHsvaParameter { hue = new UniformSampler(0.583f, 0.69f), saturation = new UniformSampler(0.6f, 1.0f), value = new UniformSampler(0.5f, 0.9f)};
+                            renderer.material.color = copyColorParameter.Sample();
+                        }
+                        else if(tag.type == ColorObjectType.RedBall)
+                        {
+                            var range1 = new UniformSampler(0f, 0.07f);
+                            var range2 = new UniformSampler(0.96f, 1f);
+                            var selectedSampler = range1; 
+                            if (Random.Range(0f, 1f) > 0.5f)
+                                selectedSampler = range2;
+
+                            var copyColorParameter = new ColorHsvaParameter { hue = selectedSampler, saturation = new UniformSampler(0.75f, 1.0f), value = new UniformSampler(0.65f, 0.9f)};
+                            renderer.material.color = copyColorParameter.Sample();
+                        }
+                        else if(tag.type == ColorObjectType.VioletBall)
+                        {
+                            var copyColorParameter = new ColorHsvaParameter { hue = new UniformSampler(0.73f, 0.88f), saturation = new UniformSampler(0.6f, 1.0f), value = new UniformSampler(0.45f, 0.8f)};
+                            renderer.material.color = copyColorParameter.Sample();
+                        }
+                        else if(tag.type == ColorObjectType.YellowBall)
+                        {
+                            var copyColorParameter = new ColorHsvaParameter { hue = new UniformSampler(0.083f, 0.20f), saturation = new UniformSampler(0.6f, 1.0f), value = new UniformSampler(0.75f, 1f)};
                             renderer.material.color = copyColorParameter.Sample();
                         }
                         else

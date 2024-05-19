@@ -5,6 +5,10 @@
         Plane,
         Figure,
         Stick,
-        FigureOnPlane
+        FigureOnPlane,
+        BlueBall,
+        RedBall,
+        VioletBall,
+        YellowBall
     }
 }
