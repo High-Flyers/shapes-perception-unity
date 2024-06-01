@@ -23,5 +23,7 @@ MonoBehaviour:
     id: 3
   - label: Barrel
     id: 4
+  - label: EmptyPlane
+    id: 5
   autoAssignIds: 1
   startingLabelId: 0
